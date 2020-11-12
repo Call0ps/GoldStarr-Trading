@@ -281,7 +281,6 @@ namespace GoldStarr_Trading
 			AddNewCustomerZipCode.Text = "";
 			AddNewCustomerCity.Text = "";
 			AddNewCustomerEmail.Text = "";
-
 		}
 
 		private void PendingOrdersBtnSend_Click(object sender, RoutedEventArgs e)

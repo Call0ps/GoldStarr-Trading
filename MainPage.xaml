@@ -162,7 +162,7 @@
                         </ListViewHeaderItem>
 
                         <ListView x:Name="CustomerView" ItemsSource="{x:Bind _app.GetDefaultCustomerList()}"
-                                  BorderBrush="Black" BorderThickness="1" SelectionMode="None">
+                                  BorderBrush="Black" BorderThickness="1" SelectionMode="None" HorizontalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollMode="Enabled" MaxHeight="250" >
                             <!--Remove ( SelectionMode="None" ) to make list clickable-->
                             <ListView.ItemTemplate>
                                 <DataTemplate>

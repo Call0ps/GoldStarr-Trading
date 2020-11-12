@@ -94,12 +94,6 @@
         #endregion Properties
 
         #region Constructors
-
-
-        public CustomerClass()
-        {
-
-        }
         public CustomerClass(string name, string address, string zipCode, string city, string phone)
         {
             CustomerName = name;
