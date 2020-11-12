@@ -23,7 +23,7 @@
             </Pivot.TitleTemplate>
 
 
-            <!--TODO: -->
+            <!--TODO: All Done :) -->
             <PivotItem Header="Customers" Margin="10,0,10,10">
                 <Grid Background="White">
 
@@ -36,6 +36,7 @@
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
 
@@ -53,18 +54,18 @@
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="20"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
                                     <RowDefinition Height="20"/>
                                 </Grid.RowDefinitions>
 
@@ -92,7 +93,7 @@
                                 <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="CustomerAddress" Header="Address" PlaceholderText="Address"
                                      Margin="0,24,0,0" MaxLength="50" Width="400" HorizontalAlignment="Left" IsReadOnly="True"/>
 
-                                
+
                                 <RelativePanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,24,0,24">
                                     <Grid Background="White">
 
@@ -131,67 +132,67 @@
 
                         </StackPanel>
                     </RelativePanel>
-                    
-                    <StackPanel Grid.Row="2" Grid.Column="1"  x:Name="CustomerPanel" Margin="10,0,0,0">
 
-                        <ListViewHeaderItem>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="200"/>
-                                    <ColumnDefinition Width="220"/>
-                                    <ColumnDefinition Width="175"/>
-                                    <ColumnDefinition Width="110"/>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition Width="350"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
+                    <!--<StackPanel Grid.Row="2" Grid.Column="1"  x:Name="CustomerPanel" Margin="10,0,0,10">-->
 
-                                <TextBlock Text="Name" Grid.Row="1" Grid.Column="1" Margin="22,0,0,0"/>
-                                <TextBlock Text="Phone Number" Grid.Row="1" Grid.Column="2" Margin="22,0,0,0"/>
-                                <TextBlock Text="Address" Grid.Row="1" Grid.Column="3" Margin="22,0,0,0"/>
-                                <TextBlock Text="Zip Code" Grid.Row="1" Grid.Column="4" Margin="22,0,0,0"/>
-                                <TextBlock Text="City" Grid.Row="1" Grid.Column="5" Margin="22,0,0,0"/>
-                                <TextBlock Text="Email" Grid.Row="1" Grid.Column="6" Margin="22,0,0,0"/>
+                    <ListViewHeaderItem Grid.Row="2" Grid.Column="1"  x:Name="CustomerPanel" Margin="10,0,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="175"/>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="350"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="Name" Grid.Row="1" Grid.Column="1" Margin="10,0,0,0"/>
+                            <TextBlock Text="Phone Number" Grid.Row="1" Grid.Column="2" Margin="10,0,0,0"/>
+                            <TextBlock Text="Address" Grid.Row="1" Grid.Column="3" Margin="10,0,0,0"/>
+                            <TextBlock Text="Zip Code" Grid.Row="1" Grid.Column="4" Margin="10,0,0,0"/>
+                            <TextBlock Text="City" Grid.Row="1" Grid.Column="5" Margin="10,0,0,0"/>
+                            <TextBlock Text="Email" Grid.Row="1" Grid.Column="6" Margin="10,0,0,0"/>
 
 
-                            </Grid>
-                        </ListViewHeaderItem>
+                        </Grid>
+                    </ListViewHeaderItem>
 
-                        <ListView x:Name="CustomerView" ItemsSource="{x:Bind _app.GetDefaultCustomerList()}"
-                                  BorderBrush="Black" BorderThickness="1" SelectionMode="None">
-                            <!--Remove ( SelectionMode="None" ) to make list clickable-->
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                        <Grid>
+                    <ListView x:Name="CustomerView" ItemsSource="{x:Bind _app.GetDefaultCustomerList()}"
+                                  BorderBrush="Black" BorderThickness="1" SelectionMode="None" VerticalAlignment="Top"
+                                  Grid.Row="3" Grid.Column="1" Margin="10,0,0,0">
+                        <!--Remove ( SelectionMode="None" ) to make list clickable-->
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
 
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="10"/>
-                                                <ColumnDefinition Width="200"/>
-                                                <ColumnDefinition Width="220"/>
-                                                <ColumnDefinition Width="175"/>
-                                                <ColumnDefinition Width="110"/>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="350"/>
-                                            </Grid.ColumnDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="200"/>
+                                        <ColumnDefinition Width="220"/>
+                                        <ColumnDefinition Width="175"/>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="350"/>
+                                    </Grid.ColumnDefinitions>
 
-                                            <TextBlock Text="{Binding CustomerName}" Margin="10,0,0,0" Grid.Column="1"/>
-                                            <TextBlock Text="{Binding CustomerPhone}" Margin="10,0,0,0" Grid.Column="2"/>
-                                            <TextBlock Text="{Binding CustomerAddress}" Margin="10,0,0,0" Grid.Column="3"/>
-                                            <TextBlock Text="{Binding CustomerZipCode}" Margin="10,0,0,0" Grid.Column="4"/>
-                                            <TextBlock Text="{Binding CustomerCity}" Margin="10,0,0,0" Grid.Column="5"/>
-                                            <TextBlock Text="{Binding CustomerEmail}" Margin="10,0,0,0" Grid.Column="6"/>
+                                    <TextBlock Text="{Binding CustomerName}" Margin="10,0,0,0" Grid.Column="1"/>
+                                    <TextBlock Text="{Binding CustomerPhone}" Margin="10,0,0,0" Grid.Column="2"/>
+                                    <TextBlock Text="{Binding CustomerAddress}" Margin="10,0,0,0" Grid.Column="3"/>
+                                    <TextBlock Text="{Binding CustomerZipCode}" Margin="10,0,0,0" Grid.Column="4"/>
+                                    <TextBlock Text="{Binding CustomerCity}" Margin="10,0,0,0" Grid.Column="5"/>
+                                    <TextBlock Text="{Binding CustomerEmail}" Margin="10,0,0,0" Grid.Column="6"/>
 
-                                        </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
-                    </StackPanel>
-                    
+                    <!--</StackPanel>-->
+
                 </Grid>
             </PivotItem>
 
@@ -319,64 +320,65 @@
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="1" Grid.Column="1"  x:Name="OrdersPanel" Margin="10,0,0,0">
+                    <!--<StackPanel Grid.Row="1" Grid.Column="1"  x:Name="OrdersPanel" Margin="10,0,0,0">-->
 
-                        <TextBlock  x:Name="OrdersPanelHeader" Text="Orders" 
-                                Grid.Row="1" Grid.Column="2" Margin="20"
+                    <TextBlock  x:Name="OrdersPanelHeader" Text="Orders" 
+                                Grid.Row="1" Grid.Column="1" Margin="20"
                                 FontSize="36" FontWeight="SemiBold" HorizontalAlignment="Center" TextDecorations="Underline"/>
+                    <!--</StackPanel>-->
+
+                    <ListViewHeaderItem Grid.Row="2" Grid.Column="1" Margin="10,0,0,0">
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="175"/>
+                                <ColumnDefinition Width="75"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="Customer" Grid.Row="1" Grid.Column="1" Margin="10,0,0,0"/>
+                            <TextBlock Text="Item" Grid.Row="1" Grid.Column="2" Margin="10,0,0,0"/>
+                            <TextBlock Text="Qty" Grid.Row="1" Grid.Column="3" Margin="10,0,0,0"/>
+                            <TextBlock Text="OrderDate" Grid.Row="1" Grid.Column="4" Margin="10,0,0,0"/>
 
 
-                        <ListViewHeaderItem Grid.Row="1" Grid.Column="1">
-                            <Grid>
+                        </Grid>
+                    </ListViewHeaderItem>
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="150"/>
-                                    <ColumnDefinition Width="175"/>
-                                    <ColumnDefinition Width="75"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
+                    <ListView x:Name="OrdersView" ItemsSource="{x:Bind _app.GetDefaultCustomerOrdersList()}" Grid.Row="3" Grid.Column="1"
+                                  BorderBrush="Black" BorderThickness="1" SelectionMode="None" Margin="10,0,0,0">
+                        <!--Remove ( SelectionMode="None" ) to make list clickable-->
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
 
-                                <TextBlock Text="Customer" Grid.Row="1" Grid.Column="1" Margin="22,0,0,0"/>
-                                <TextBlock Text="Item" Grid.Row="1" Grid.Column="2" Margin="22,0,0,0"/>
-                                <TextBlock Text="Qty" Grid.Row="1" Grid.Column="3" Margin="20,0,0,0"/>
-                                <TextBlock Text="OrderDate" Grid.Row="1" Grid.Column="4" Margin="22,0,0,0"/>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="175"/>
+                                        <ColumnDefinition Width="75"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
 
-
-                            </Grid>
-                        </ListViewHeaderItem>
-
-                        <ListView x:Name="OrdersView" ItemsSource="{x:Bind _app.GetDefaultCustomerOrdersList()}" Grid.Row="2" Grid.Column="1"
-                                  BorderBrush="Black" BorderThickness="1" SelectionMode="None">
-                            <!--Remove ( SelectionMode="None" ) to make list clickable-->
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                        <Grid>
-
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="10"/>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="175"/>
-                                                <ColumnDefinition Width="75"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <TextBlock Text="{Binding Customer}" Margin="10,0,0,0" Grid.Column="1"/>
-                                            <TextBlock Text="{Binding Merchandise.ItemName}" Margin="10,0,0,0" Grid.Column="2"/>
-                                            <TextBlock Text="{Binding Merchandise.Qty}" Margin="10,0,0,0" Grid.Column="3"/>
-                                            <TextBlock Text="{Binding OrderDate}" Margin="10,0,0,0" Grid.Column="4"/>
+                                    <TextBlock Text="{Binding Customer}" Margin="10,0,0,0" Grid.Column="1"/>
+                                    <TextBlock Text="{Binding Merchandise.ItemName}" Margin="10,0,0,0" Grid.Column="2"/>
+                                    <TextBlock Text="{Binding Merchandise.Qty}" Margin="20,0,0,0" Grid.Column="3"/>
+                                    <TextBlock Text="{Binding OrderDate}" Margin="10,0,0,0" Grid.Column="4"/>
 
 
-                                        </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
                 </Grid>
             </PivotItem>
 
@@ -429,7 +431,7 @@
                                          HorizontalAlignment="Left" InputScope="Text" RelativePanel.RightOf="CreateOrderTabItemComboBox"/>
 
                                 <Button x:Name="AddOrderContent" Content="Add" Margin="24,48,0,0" RelativePanel.RightOf="OrderQuantity" Click="AddOrderContent_Click"/>
-                                
+
                             </RelativePanel>
 
                         </StackPanel>
@@ -452,64 +454,66 @@
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
 
 
                     <TextBlock  x:Name="MerchandisePanelHeader" Text="Merchandise in Stock" 
-                                Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="20"
+                                Grid.Row="1" Grid.Column="1"  Margin="20"
                                 FontSize="36" FontWeight="SemiBold" HorizontalAlignment="Center" TextDecorations="Underline"/>
 
 
-                    <StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" x:Name="MerchandiseStock" Margin="10">
+                    <!--<StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" x:Name="MerchandiseStock" Margin="10">-->
 
-                        <ListViewHeaderItem>
-                            <Grid>
-                                
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="200"/>
-                                    <ColumnDefinition Width="200"/>
-                                    <ColumnDefinition Width="50"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
+                    <ListViewHeaderItem Grid.Row="2" Grid.Column="1">
+                        <Grid>
 
-                                <TextBlock Text="Supplier" Grid.Row="1" Grid.Column="1" Margin="15,0,0,0"/>
-                                <TextBlock Text="Item" Grid.Row="1" Grid.Column="2" Margin="15,0,0,0"/>
-                                <TextBlock Text="Qty" Grid.Row="1" Grid.Column="3" Margin="15,0,0,0"/>
-                                
-                            </Grid>
-                        </ListViewHeaderItem>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
 
-                        <ListView x:Name="InStockList" ItemsSource="{x:Bind _app.GetDefaultStockList()}" BorderBrush="Black" BorderThickness="1" SelectionMode="None">
-                            <!--Remove ( SelectionMode="None" ) to make list clickable-->
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                        <Grid>
+                            <TextBlock Text="Supplier" Grid.Row="1" Grid.Column="1" Margin="10,0,0,0"/>
+                            <TextBlock Text="Item" Grid.Row="1" Grid.Column="2" Margin="10,0,0,0"/>
+                            <TextBlock Text="Qty" Grid.Row="1" Grid.Column="3" Margin="10,0,0,0"/>
 
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="200"/>
-                                                <ColumnDefinition Width="200"/>
-                                                <ColumnDefinition Width="50"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ListViewHeaderItem>
 
-                                            <TextBlock Text="{Binding Supplier}" Margin="10,0,0,0" Grid.Column="0"/>
-                                            <TextBlock Text="{Binding ItemName}" Margin="10,0,0,0" Grid.Column="1"/>
-                                            <TextBlock x:Name="QTY" Text="{Binding Qty}" Margin="20,0,0,0" Grid.Column="2"/>
+                    <ListView x:Name="InStockList" ItemsSource="{x:Bind _app.GetDefaultStockList()}" BorderBrush="Black" BorderThickness="1" 
+                                  SelectionMode="None" Grid.Row="3" Grid.Column="1" Margin="10,0,0,0">
+                        <!--Remove ( SelectionMode="None" ) to make list clickable-->
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
 
-                                        </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </StackPanel>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="200"/>
+                                        <ColumnDefinition Width="200"/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding Supplier}" Margin="10,0,0,0" Grid.Column="0"/>
+                                    <TextBlock Text="{Binding ItemName}" Margin="10,0,0,0" Grid.Column="1"/>
+                                    <TextBlock x:Name="QTY" Text="{Binding Qty}" Margin="20,0,0,0" Grid.Column="2"/>
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <!--</StackPanel>-->
                 </Grid>
             </PivotItem>
 
 
-            <!--TODO: -->
+            <!--TODO: All Done :) -->
             <PivotItem Header="Suppliers" Margin="10,0,10,10">
                 <Grid Background="White">
 
@@ -522,67 +526,94 @@
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
-                    
+
                     <RelativePanel Grid.Row="1" Grid.Column="1">
 
                         <StackPanel x:Name="Supplier" Margin="20">
 
-                            <ComboBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="SuppliersTabComboBoxSupplierName" PlaceholderText="Select Supplier" 
+                            <Grid Background="White">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="20"/>
+                                </Grid.RowDefinitions>
+
+                                <ComboBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="SuppliersTabComboBoxSupplierName" PlaceholderText="Select Supplier" 
                                           ItemsSource="{x:Bind _app.Suppliers}" SelectionChanged="SuppliersTabComboBox_SelectionChanged" 
                                           HorizontalContentAlignment="Center" Width="400">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding SupplierName}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                                <x:String>WA</x:String>
-                            </ComboBox>
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding SupplierName}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                    <x:String>WA</x:String>
+                                </ComboBox>
 
-                            <TextBox x:Name="SupplierName" Header= "Supplier Name" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                <TextBox x:Name="SupplierName" Header= "Supplier Name" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                                      Margin="0,24,0,0" MaxLength="320" Width="400" HorizontalAlignment="Left" IsReadOnly="True"/>
 
 
-                            <TextBox Grid.Row="4" x:Name="SupplierPhoneNumber" Header="Phone Number" PlaceholderText="+46 0707 123 456" 
+                                <TextBox Grid.Row="4" x:Name="SupplierPhoneNumber" Header="Phone Number" PlaceholderText="+46 0707 123 456" 
                                      Margin="0,24,0,0" MaxLength="50" Width="400" HorizontalAlignment="Left" IsReadOnly="True"/>
 
 
-                            <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="SupplierAddress" Header="Address" PlaceholderText="Address"
+                                <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="SupplierAddress" Header="Address" PlaceholderText="Address"
                                      Margin="0,24,0,0" MaxLength="50" Width="400" HorizontalAlignment="Left" IsReadOnly="True"/>
 
 
-                            <RelativePanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,24,0,24">
-                                <Grid Background="White">
+                                <RelativePanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,24,0,24">
+                                    <Grid Background="White">
 
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="24"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="20"/>
-                                    </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="24"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="20"/>
+                                        </Grid.RowDefinitions>
 
-                                    <TextBox x:Name="SupplierZipCode" Header="ZipCode" PlaceholderText="Zip Code" Grid.Row="1" Grid.Column="1"
+                                        <TextBox x:Name="SupplierZipCode" Header="ZipCode" PlaceholderText="Zip Code" Grid.Row="1" Grid.Column="1"
                                                          Margin="0,-24,0,0" MaxLength="6" Width="150" HorizontalAlignment="Left" IsReadOnly="True"/>
 
 
-                                    <TextBox x:Name="SupplierCity" Header="City" PlaceholderText="City" Grid.Row="1" Grid.Column="2" 
+                                        <TextBox x:Name="SupplierCity" Header="City" PlaceholderText="City" Grid.Row="1" Grid.Column="2" 
                                                          Margin="24,-24,0,0" MaxLength="50" Width="226" HorizontalAlignment="Left" 
                                                          RelativePanel.RightOf="SupplierZipCode" IsReadOnly="True"/>
 
-                                </Grid>
-                            </RelativePanel>
+                                    </Grid>
+                                </RelativePanel>
+                            </Grid>
+                        </StackPanel>
+                    </RelativePanel>
 
-
-                            <!--<TextBox x:Name="SupplierName" Header="Supplier Name" Margin="0,24,0,0" MaxLength="320" Width="400" HorizontalAlignment="Left" InputScope="PersonalFullName"/>
+                    <!--<TextBox x:Name="SupplierName" Header="Supplier Name" Margin="0,24,0,0" MaxLength="320" Width="400" HorizontalAlignment="Left" InputScope="PersonalFullName"/>
                             <TextBox x:Name="SupplierPhoneNumber" Header="Phone Number" PlaceholderText="+46 0707 123 456" Margin="0,24,0,0" MaxLength="50" Width="400" HorizontalAlignment="Left" InputScope="TelephoneNumber" />
                             <TextBox x:Name="SupplierAddress" Header="Address" PlaceholderText="Address" Margin="0,24,0,0" MaxLength="50" Width="400" HorizontalAlignment="Left" InputScope="AlphanumericFullWidth" />
 
@@ -592,63 +623,62 @@
                             </RelativePanel>-->
 
 
-                            <StackPanel Grid.Row="2" Grid.Column="1"  x:Name="SupplierPanel" Margin="0,50,0,0">
+                    <!--<StackPanel Grid.Row="2" Grid.Column="1"  x:Name="SupplierPanel" Margin="0,50,0,0">-->
 
-                                <ListViewHeaderItem>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="10"/>
-                                            <ColumnDefinition Width="250"/>
-                                            <ColumnDefinition Width="220"/>
-                                            <ColumnDefinition Width="175"/>
-                                            <ColumnDefinition Width="110"/>
-                                            <ColumnDefinition Width="100"/>
-                                        </Grid.ColumnDefinitions>
+                    <ListViewHeaderItem Grid.Row="2" Grid.Column="1"  x:Name="SupplierPanel" Margin="0,0,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="175"/>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
 
-                                        <TextBlock Text="Name" Grid.Row="1" Grid.Column="1" Margin="22,0,0,0"/>
-                                        <TextBlock Text="Phone Number" Grid.Row="1" Grid.Column="2" Margin="22,0,0,0"/>
-                                        <TextBlock Text="Address" Grid.Row="1" Grid.Column="3" Margin="22,0,0,0"/>
-                                        <TextBlock Text="Zip Code" Grid.Row="1" Grid.Column="4" Margin="22,0,0,0"/>
-                                        <TextBlock Text="City" Grid.Row="1" Grid.Column="5" Margin="22,0,0,0"/>
+                            <TextBlock Text="Name" Grid.Row="1" Grid.Column="1" Margin="22,0,0,0"/>
+                            <TextBlock Text="Phone Number" Grid.Row="1" Grid.Column="2" Margin="22,0,0,0"/>
+                            <TextBlock Text="Address" Grid.Row="1" Grid.Column="3" Margin="22,0,0,0"/>
+                            <TextBlock Text="Zip Code" Grid.Row="1" Grid.Column="4" Margin="22,0,0,0"/>
+                            <TextBlock Text="City" Grid.Row="1" Grid.Column="5" Margin="22,0,0,0"/>
 
-                                    </Grid>
-                                </ListViewHeaderItem>
+                        </Grid>
+                    </ListViewHeaderItem>
 
-                                <ListView x:Name="SupplierView" ItemsSource="{x:Bind _app.Suppliers}"
-                                  BorderBrush="Black" BorderThickness="1" SelectionMode="None">
-                                    <!--Remove ( SelectionMode="None" ) to make list clickable-->
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                                <Grid>
+                    <ListView x:Name="SupplierView" ItemsSource="{x:Bind _app.Suppliers}"
+                                          BorderBrush="Black" BorderThickness="1" SelectionMode="None" VerticalAlignment="Top"
+                                          Grid.Row="3" Grid.Column="1" Margin="10,0,0,0">
+                        <!--Remove ( SelectionMode="None" ) to make list clickable-->
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
 
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="10"/>
-                                                        <ColumnDefinition Width="250"/>
-                                                        <ColumnDefinition Width="220"/>
-                                                        <ColumnDefinition Width="175"/>
-                                                        <ColumnDefinition Width="110"/>
-                                                        <ColumnDefinition Width="100"/>
-                                                    </Grid.ColumnDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="250"/>
+                                        <ColumnDefinition Width="220"/>
+                                        <ColumnDefinition Width="175"/>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="100"/>
+                                    </Grid.ColumnDefinitions>
 
-                                                    <TextBlock Text="{Binding SupplierName}" Margin="10,0,0,0" Grid.Column="1"/>
-                                                    <TextBlock Text="{Binding SupplierPhone}" Margin="10,0,0,0" Grid.Column="2"/>
-                                                    <TextBlock Text="{Binding SupplierAddress}" Margin="10,0,0,0" Grid.Column="3"/>
-                                                    <TextBlock Text="{Binding SupplierZipCode}" Margin="10,0,0,0" Grid.Column="4"/>
-                                                    <TextBlock Text="{Binding SupplierCity}" Margin="10,0,0,0" Grid.Column="5"/>
+                                    <TextBlock Text="{Binding SupplierName}" Margin="10,0,0,0" Grid.Column="1"/>
+                                    <TextBlock Text="{Binding SupplierPhone}" Margin="10,0,0,0" Grid.Column="2"/>
+                                    <TextBlock Text="{Binding SupplierAddress}" Margin="10,0,0,0" Grid.Column="3"/>
+                                    <TextBlock Text="{Binding SupplierZipCode}" Margin="10,0,0,0" Grid.Column="4"/>
+                                    <TextBlock Text="{Binding SupplierCity}" Margin="10,0,0,0" Grid.Column="5"/>
 
-                                                </Grid>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
-                            </StackPanel>
+                    <!--</StackPanel>-->
 
-                        </StackPanel>
-                    </RelativePanel>
 
                 </Grid>
             </PivotItem>
-            
+
 
             <!--TODO: All Done :) -->
             <PivotItem Header="Add new Supplier" Margin="10,0,10,10">
@@ -768,66 +798,68 @@
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
 
 
                     <TextBlock  x:Name="DeliverysPanelHeader" Text="Incoming Delivery's" 
-                                Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="20"
+                                Grid.Row="1" Grid.Column="1" Margin="20"
                                 FontSize="36" FontWeight="SemiBold" HorizontalAlignment="Center" TextDecorations="Underline"/>
 
-                    <StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="10">
+                    <!--<StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="10">-->
 
-                        <ListViewHeaderItem>
-                            <Grid>
-                                
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="25"/>
-                                    <ColumnDefinition Width="200"/>
-                                    <ColumnDefinition Width="200"/>
-                                    <ColumnDefinition Width="50"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
+                    <ListViewHeaderItem Grid.Row="2" Grid.Column="1"  Margin="10,0,0,0">
+                        <Grid>
 
-                                <TextBlock Text="Supplier" Grid.Row="1" Grid.Column="1"/>
-                                <TextBlock Text="Item" Grid.Row="1" Grid.Column="2"/>
-                                <TextBlock Text="Qty" Grid.Row="1" Grid.Column="3"/>
-                                <TextBlock Text="Add Qty" Grid.Row="1" Grid.Column="4" Margin="65,0,0,0"/>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
 
-                            </Grid>
-                        </ListViewHeaderItem>
+                            <TextBlock Text="Supplier" Grid.Row="1" Grid.Column="1"/>
+                            <TextBlock Text="Item" Grid.Row="1" Grid.Column="2"/>
+                            <TextBlock Text="Qty" Grid.Row="1" Grid.Column="3"/>
+                            <TextBlock Text="Add Qty" Grid.Row="1" Grid.Column="4" Margin="65,0,0,0"/>
 
-                        <ListView x:Name="StockToAddList" ItemsSource="{x:Bind _app.GetDefaultDeliverysList()}" BorderBrush="Black" BorderThickness="1" SelectionMode="None">
-                            <!--Remove ( SelectionMode="None" ) to make list clickable-->
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <RelativePanel Margin="15">
-                                        <Grid>
-                                            
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="200"/>
-                                                <ColumnDefinition Width="200"/>
-                                                <ColumnDefinition Width="50"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ListViewHeaderItem>
 
-                                            <TextBlock Text="{Binding Supplier}" Margin="10,0,0,0" Grid.Column="0"/>
-                                            <TextBlock x:Name="ItemName" Text="{Binding ItemName}" Margin="10,0,0,0" Grid.Column="1"/>
-                                            <TextBlock x:Name="QTY" Text="{Binding Qty}" Margin="20,0,0,0" Grid.Column="2"/>
-                                            <TextBox x:Name="TxtBoxAddQty" RelativePanel.RightOf="QTY" Margin="50,0,0,0" Grid.Column="3"/>
-                                            <Button x:Name="BtnAdd" RelativePanel.RightOf="TxtBoxAddQty" Content="Add" 
+                    <ListView x:Name="StockToAddList" ItemsSource="{x:Bind _app.GetDefaultDeliverysList()}" Margin="10,0,0,0"
+                                  BorderBrush="Black" BorderThickness="1" SelectionMode="None" Grid.Row="3" Grid.Column="1">
+                        <!--Remove ( SelectionMode="None" ) to make list clickable-->
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <RelativePanel Margin="15">
+                                    <Grid>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding Supplier}" Margin="10,0,0,0" Grid.Column="0"/>
+                                        <TextBlock x:Name="ItemName" Text="{Binding ItemName}" Margin="10,0,0,0" Grid.Column="1"/>
+                                        <TextBlock x:Name="QTY" Text="{Binding Qty}" Margin="20,0,0,0" Grid.Column="2"/>
+                                        <TextBox x:Name="TxtBoxAddQty" RelativePanel.RightOf="QTY" Margin="50,0,0,0" Grid.Column="3"/>
+                                        <Button x:Name="BtnAdd" RelativePanel.RightOf="TxtBoxAddQty" Content="Add" 
                                                     Click="BtnAddDeliveredMerchandise_Click" Margin="10,0,0,0" Grid.Column="4"
                                                     Command="{Binding ElementName=StockToAddList, Path=DataContext.AddButtonCommand}"/>
 
-                                        </Grid>
-                                    </RelativePanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                    </Grid>
+                                </RelativePanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
-                    </StackPanel>
+                    <!--</StackPanel>-->
                 </Grid>
             </PivotItem>
 
@@ -847,69 +879,73 @@
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
 
 
                     <TextBlock  x:Name="PendingOrdersPanelHeader" Text="Pending Customer Orders" 
-                                Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="20"
+                                Grid.Row="1" Grid.Column="1" Margin="20"
                                 FontSize="36" FontWeight="SemiBold" HorizontalAlignment="Center" TextDecorations="Underline"/>
 
-                    <StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="10">
 
-                        <ListViewHeaderItem>
-                            <Grid>
+                    <!--<StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="10">-->
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="25"/>
-                                    <ColumnDefinition Width="200"/>
-                                    <ColumnDefinition Width="200"/>
-                                    <ColumnDefinition Width="50"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
+                    <ListViewHeaderItem Grid.Row="2" Grid.Column="1"  Margin="0,0,0,0">
+                        <Grid>
 
-                                <TextBlock Text="Customer" Grid.Row="1" Grid.Column="1"/>
-                                <TextBlock Text="Item" Grid.Row="1" Grid.Column="2"/>
-                                <TextBlock Text="Qty" Grid.Row="1" Grid.Column="3"/>
-                                <TextBlock Text="Send order" Grid.Row="1" Grid.Column="4" Margin="65,0,0,0"/>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
 
-                            </Grid>
-                        </ListViewHeaderItem>
+                            <TextBlock Text="Customer" Grid.Row="1" Grid.Column="1"/>
+                            <TextBlock Text="Item" Grid.Row="1" Grid.Column="2"/>
+                            <TextBlock Text="Qty" Grid.Row="1" Grid.Column="3"/>
+                            <TextBlock Text="Send order" Grid.Row="1" Grid.Column="4" Margin="65,0,0,0"/>
 
-                        <ListView x:Name="PendingOrdersList" ItemsSource="{x:Bind _app.QueuedOrders}" BorderBrush="Black" BorderThickness="1" SelectionMode="Single">
-                            <!--Remove ( SelectionMode="None" ) to make list clickable-->
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <RelativePanel Margin="15">
-                                        <Grid>
+                        </Grid>
+                    </ListViewHeaderItem>
 
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="200"/>
-                                                <ColumnDefinition Width="200"/>
-                                                <ColumnDefinition Width="50"/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
+                    <ListView x:Name="PendingOrdersList" ItemsSource="{x:Bind _app.QueuedOrders}" 
+                                  BorderBrush="Black" BorderThickness="1" SelectionMode="None" Grid.Row="3" Grid.Column="1">
+                        <!--Remove ( SelectionMode="None" ) to make list clickable-->
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <RelativePanel Margin="15">
+                                    <Grid>
 
-                                            <TextBlock x:Name="PendingOrdersCustomerName" Text="{Binding Customer.CustomerName}" Margin="10,0,0,0" Grid.Column="0"/>
-                                            <TextBlock x:Name="PendingOrdersItemName" Text="{Binding Merchandise.ItemName}" Margin="10,0,0,0" Grid.Column="1"/>
-                                            <TextBlock x:Name="PendingOrdersQTY" Text="{Binding Merchandise.Qty}" Margin="20,0,0,0" Grid.Column="2"/>
-                                            <Button x:Name="PendingOrdersBtnSend" RelativePanel.RightOf="PendingOrdersQTY" Content="Send order" Width="100"
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock x:Name="PendingOrdersCustomerName" Text="{Binding Customer.CustomerName}" Margin="10,0,0,0" Grid.Column="0"/>
+                                        <TextBlock x:Name="PendingOrdersItemName" Text="{Binding Merchandise.ItemName}" Margin="10,0,0,0" Grid.Column="1"/>
+                                        <TextBlock x:Name="PendingOrdersQTY" Text="{Binding Merchandise.Qty}" Margin="20,0,0,0" Grid.Column="2"/>
+                                        <Button x:Name="PendingOrdersBtnSend" RelativePanel.RightOf="PendingOrdersQTY" Content="Send order" Width="100"
                                                     Click="PendingOrdersBtnSend_Click" Margin="75,0,0,0" Grid.Column="4"
                                                     Command="{Binding ElementName=StockToAddList, Path=DataContext.AddButtonCommand}"/>
 
-                                        </Grid>
-                                    </RelativePanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                    </Grid>
+                                </RelativePanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button x:Name="PendingOrdersBtnSendAll" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Content="Send All" Width="100"
+                            Click="PendingOrdersBtnSendAll_Click" Margin="0,25,27,0"/>
 
-                    </StackPanel>
+                    <!--</StackPanel>-->
 
-                    <Button x:Name="PendingOrdersBtnSendAll" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Right" Content="Send All" Width="100"
-                            Click="PendingOrdersBtnSendAll_Click" Margin="0,0,38,0"/>
+
 
                 </Grid>
             </PivotItem>
