@@ -145,6 +145,10 @@
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="350"/>
                                 </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
                                 <TextBlock Text="Name" Grid.Row="1" Grid.Column="1" Margin="22,0,0,0"/>
                                 <TextBlock Text="Phone Number" Grid.Row="1" Grid.Column="2" Margin="22,0,0,0"/>
@@ -162,7 +166,6 @@
                             <!--Remove ( SelectionMode="None" ) to make list clickable-->
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <RelativePanel Margin="15">
                                         <Grid>
 
                                             <Grid.ColumnDefinitions>
@@ -183,7 +186,6 @@
                                             <TextBlock Text="{Binding CustomerEmail}" Margin="10,0,0,0" Grid.Column="6"/>
 
                                         </Grid>
-                                    </RelativePanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
@@ -353,7 +355,6 @@
                             <!--Remove ( SelectionMode="None" ) to make list clickable-->
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <RelativePanel Margin="15">
                                         <Grid>
 
                                             <Grid.ColumnDefinitions>
@@ -372,7 +373,6 @@
 
 
                                         </Grid>
-                                    </RelativePanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
@@ -486,7 +486,6 @@
                             <!--Remove ( SelectionMode="None" ) to make list clickable-->
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <RelativePanel Margin="15">
                                         <Grid>
 
                                             <Grid.ColumnDefinitions>
@@ -502,7 +501,6 @@
                                             <TextBlock x:Name="QTY" Text="{Binding Qty}" Margin="20,0,0,0" Grid.Column="2"/>
 
                                         </Grid>
-                                    </RelativePanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
@@ -621,7 +619,6 @@
                                     <!--Remove ( SelectionMode="None" ) to make list clickable-->
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
-                                            <RelativePanel Margin="15">
                                                 <Grid>
 
                                                     <Grid.ColumnDefinitions>
@@ -640,7 +637,6 @@
                                                     <TextBlock Text="{Binding SupplierCity}" Margin="10,0,0,0" Grid.Column="5"/>
 
                                                 </Grid>
-                                            </RelativePanel>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
@@ -649,9 +645,6 @@
 
                         </StackPanel>
                     </RelativePanel>
-
-                    
-
 
                 </Grid>
             </PivotItem>
