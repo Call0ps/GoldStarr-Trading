@@ -81,7 +81,7 @@
                                 </ComboBox>
 
 
-                                <TextBox x:Name="CustomerName" Header= "Customer Name" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                <TextBox x:Name="CustomerName" Header= "Customer Name" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" PlaceholderText="Customer Name"
                                      Margin="0,24,0,0" MaxLength="320" Width="400" HorizontalAlignment="Left" IsReadOnly="True"/>
 
 
@@ -120,7 +120,8 @@
                                                          RelativePanel.RightOf="CustomerZipCode" IsReadOnly="True"/>
 
 
-                                        <TextBox x:Name="CustomerEmailShow" Header="Email" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,24,0,0"/>
+                                        <TextBox x:Name="CustomerEmail" Header="Email" PlaceholderText="example@domain.com" Grid.Column="1" 
+                                                 Grid.Row="2" Grid.ColumnSpan="2" Margin="0,24,0,0" IsReadOnly="False"/>
 
 
                                     </Grid>
@@ -283,7 +284,7 @@
                                 </RelativePanel>
 
 
-                                <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="CustomerEmail" Header="Email" PlaceholderText="example@domain.com"
+                                <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="AddNewCustomerEmail" Header="Email" PlaceholderText="example@domain.com"
                                      Margin="0,-17,0,40" MaxLength="50" Width="400" HorizontalAlignment="Left" IsReadOnly="False"/>
 
 

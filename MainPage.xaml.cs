@@ -191,6 +191,8 @@ namespace GoldStarr_Trading
             CustomerAddress.Text = newCustomer.CustomerAddress;
             CustomerZipCode.Text = newCustomer.CustomerZipCode;
             CustomerCity.Text = newCustomer.CustomerCity;
+            CustomerEmail.Text = newCustomer.CustomerEmail;
+
         }
 
         private void CustomerAddButton_Click(object sender, RoutedEventArgs e)
@@ -259,6 +261,7 @@ namespace GoldStarr_Trading
                 AddNewCustomerAddress.Text = "";
                 AddNewCustomerZipCode.Text = "";
                 AddNewCustomerCity.Text = "";
+                AddNewCustomerEmail.Text = "";
                 #endregion
             }
 
@@ -271,6 +274,8 @@ namespace GoldStarr_Trading
             AddNewCustomerAddress.Text = "";
             AddNewCustomerZipCode.Text = "";
             AddNewCustomerCity.Text = "";
+            AddNewCustomerEmail.Text = "";
+
         }
 
         private void PendingOrdersBtnSend_Click(object sender, RoutedEventArgs e)
