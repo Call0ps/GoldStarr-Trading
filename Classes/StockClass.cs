@@ -57,34 +57,16 @@ namespace GoldStarr_Trading.Classes
 
         #region Constructors
 
-        public StockClass()
-        {
-
-        }
-
-        public StockClass(string itemName, string supplier)
-        {
-            ItemName = itemName;
-            Supplier = supplier;
-        }
-
         public StockClass(string itemName, string supplier, int qty)
         {
             ItemName = itemName;
             Supplier = supplier;
             Qty = qty;
         }
-
-
         #endregion
 
 
         #region Methods
-
-        public override string ToString()
-        {
-            return Supplier;
-        }
 
         #region PropertyChangedEventHandler
         public event PropertyChangedEventHandler PropertyChanged;
