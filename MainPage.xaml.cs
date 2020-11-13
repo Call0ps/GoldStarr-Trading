@@ -482,7 +482,7 @@ namespace GoldStarr_Trading
             {
                 if (item.Supplier == showSupplier.SupplierName)
                 {
-                    AddNewItemTabItemComboBoxTextBlock.Text = item.ItemName.ToString();
+                    AddNewItemTabItemComboBox.Text = item.ItemName;
                     //AddNewItemTabItemComboBox.Text = item.ItemName;
 
                 }
