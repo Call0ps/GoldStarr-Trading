@@ -107,17 +107,18 @@ namespace GoldStarr_Trading.Classes
         /// <summary>
         /// Method to send all Queued orders
         /// </summary>
-        public void TrySendQO()
+        public async void TrySendQO()
         {
+            int qCount = _app.QueuedOrders.Count-1;
             if (_app.QueuedOrders.Count == 0)
             {
-                MessageToUser("No pending orders to send");
+                await MessageToUser("No pending orders to send");
             }
             else
             {
-                for (int i = 0; i < _app.QueuedOrders.Count; i++)
+                for (int i = qCount; i >=0; --i)
                 {
-                    SendOrder(_app.QueuedOrders[i]);
+                    await SendOrder(_app.QueuedOrders[i]);
                 }
             }
         }
@@ -126,7 +127,7 @@ namespace GoldStarr_Trading.Classes
         /// Method to send a queued order
         /// </summary>
         /// <param name="queuedOrder">Object of a queued order</param>
-        public void SendOrder(QueuedOrder queuedOrder)
+        public async Task SendOrder(QueuedOrder queuedOrder)
         {
             var product = FindProduct(queuedOrder.Merchandise.ItemName);
             if (product.Qty - queuedOrder.Merchandise.Qty >= 0)
@@ -138,15 +139,15 @@ namespace GoldStarr_Trading.Classes
                 // Update the remaining objects with a new qID
                 foreach (var item in _app.QueuedOrders)
                 {
-                    if (item.QueueID > 1) { item.QueueID -= 1; }
+                    if (item.QueueID > 1) {item.QueueID -= 1; }
                     else { continue; }
                 }
                 _app.GetDefaultCustomerOrdersList().Add(queuedOrder.ConvertFromQueued());
-                MessageToUser("Order sent!");
+                await MessageToUser("Order sent!");
             }
             else
             {
-                MessageToUser("Not enough in stock to send order!");
+                await MessageToUser("Not enough in stock to send order!");
             }
 
         }
