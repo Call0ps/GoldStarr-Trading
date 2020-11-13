@@ -1,121 +1,194 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Windows.Networking.Vpn;
 using Windows.UI.Popups;
 
 namespace GoldStarr_Trading.Classes
 {
-    internal class StoreClass
+    class StoreClass : IMessageToUser
     {
-        #region Collections
+        #region Properties
+        private App _app { get; set; }
+        #endregion
 
-        private static ObservableCollection<CustomerClass> CurrentCustomerList = new ObservableCollection<CustomerClass>();
-        private static ObservableCollection<CustomerOrderClass> CustomerOrders = new ObservableCollection<CustomerOrderClass>();
-        private static ObservableCollection<StockClass> CurrentStockList = new ObservableCollection<StockClass>();
-        private static ObservableCollection<StockClass> CurrentDeliverysList = new ObservableCollection<StockClass>();
-
-        private DataSets newDataSet = new DataSets();
-
-        #endregion Collections
 
         #region Constructors
-
         public StoreClass()
         {
-            CurrentStockList = newDataSet.GetDefaultStockList();
-            CurrentCustomerList = newDataSet.GetDefaultCustomerList();
-            CurrentDeliverysList = newDataSet.GetDefaultDeliverysList();
-            CustomerOrders = new ObservableCollection<CustomerOrderClass>();
+            _app = (App)App.Current;
         }
+        #endregion
 
-        #endregion Constructors
 
         #region Methods
 
-        #region Not Used Yet
-
-        DateTime orderDate = DateTime.UtcNow;
-
-        public static void RemoveFromStock(StockClass merchandise, int stockToRemove)
+        public async void RemoveFromStock(StockClass merchandise, int stockToRemove)
         {
-            foreach (var item in CurrentStockList)
+
+            foreach (var item in _app.GetDefaultStockList())
             {
+
                 if (item.ItemName == merchandise.ItemName)
                 {
                     if (item.Qty - stockToRemove < 0)
                     {
-                        ShowMessage("Not enough items in stock, order more from supplier");
+                        MessageToUser("Not enough items in stock, order more from supplier");
                         break;
                     }
                     else
                     {
                         item.Qty -= stockToRemove;
+                        await _app.WriteToFile(App.StockFileName, _app.GetDefaultStockList());
                     }
                 }
             }
+
         }
 
-        public void CreateOrder(CustomerClass customer, List<StockClass> merch)
+        public void CreateOrder(CustomerClass customer, StockClass merch)
         {
+            CultureInfo myCultureInfo = new CultureInfo("sv-SV");
+            DateTime orderDate = DateTime.UtcNow;
+
             CustomerOrderClass customerOrder = new CustomerOrderClass(customer, merch, orderDate);
-            CustomerOrders.Add(customerOrder);
+            _app.GetDefaultCustomerOrdersList().Add(customerOrder);
         }
 
-        #endregion Not Used Yet
-
-        // Remove from incoming deliveries.
-        public static void RemoveFromDeliveryList(StockClass merchandise, int stockToRemove)
+        /// <summary>
+        /// Overload to create a queued order.
+        /// </summary>
+        /// <param name="customer">A customer object, preferably of the customer who placed the order.</param>
+        /// <param name="merch">The merchandise to be shipped</param>
+        /// <param name="queueID">What place in line to place the order, generate from querying the ObsColl</param>
+        public void CreateOrder(CustomerClass customer, StockClass merch, int amount, int queueID)
         {
-            foreach (var item in CurrentDeliverysList)
+            // Define CultureInfo
+            CultureInfo cultureInfo = new CultureInfo("sv-SV");
+            DateTime dateTimeOfOrder = DateTime.UtcNow;
+
+            QueuedOrder order = new QueuedOrder(customer, new StockClass(merch.ItemName, merch.Supplier, amount), dateTimeOfOrder, queueID);
+            _app.QueuedOrders.Add(order);
+        }
+
+        public async void RemoveFromDeliveryList(StockClass merchandise, int stockToRemove)
+        {
+            foreach (var item in _app.GetDefaultDeliverysList())
             {
+
                 if (item.ItemName == merchandise.ItemName)
                 {
                     item.Qty -= stockToRemove;
+                    await _app.WriteToFile(App.IncomingDeliverysFileName, _app.GetDefaultDeliverysList());
                 }
             }
+
         }
 
-        // Add to current stock
-        public static void AddToStock(StockClass merchandise, int stockToAdd)
+        public async void AddToStock(StockClass merchandise, int stockToAdd)
         {
             int stockToRemove = stockToAdd;
 
-            foreach (var item in CurrentStockList)
+            foreach (var item in _app.GetDefaultStockList())
             {
                 if (item.ItemName == merchandise.ItemName)
                 {
                     item.Qty += stockToAdd;
+                    await _app.WriteToFile(App.StockFileName, _app.GetDefaultStockList());
                     RemoveFromDeliveryList(merchandise, stockToRemove);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Method to send all Queued orders
+        /// </summary>
+        public void TrySendQO()
+        {
+            if (_app.QueuedOrders.Count == 0)
+            {
+                MessageToUser("No pending orders to send");
+            }
+            else
+            {
+                for (int i = 0; i < _app.QueuedOrders.Count; i++)
+                {
+                    SendOrder(_app.QueuedOrders[i]);
                 }
             }
         }
 
-        public ObservableCollection<CustomerClass> GetCurrentCustomerList()
+        /// <summary>
+        /// Method to send a queued order
+        /// </summary>
+        /// <param name="queuedOrder">Object of a queued order</param>
+        public void SendOrder(QueuedOrder queuedOrder)
         {
-            return CurrentCustomerList;
+            var product = FindProduct(queuedOrder.Merchandise.ItemName);
+            if (product.Qty - queuedOrder.Merchandise.Qty >= 0)
+            {
+                RemoveFromStock(product, queuedOrder.Merchandise.Qty);
+                // Remove from collection, the collection starts at 0
+                // but IDs at 1 so ID - 1 gets you the correct number
+                _app.QueuedOrders.RemoveAt(queuedOrder.QueueID - 1);
+                // Update the remaining objects with a new qID
+                foreach (var item in _app.QueuedOrders)
+                {
+                    if (item.QueueID > 1) { item.QueueID -= 1; }
+                    else { continue; }
+                }
+                _app.GetDefaultCustomerOrdersList().Add(queuedOrder.ConvertFromQueued());
+                MessageToUser("Order sent!");
+            }
+            else
+            {
+                MessageToUser("Not enough in stock to send order!");
+            }
+
         }
 
-        public ObservableCollection<StockClass> GetCurrentStockList()
+        private StockClass FindProduct(string merchName)
         {
-            return CurrentStockList;
+            StockClass stock = null;
+            foreach (var item in _app.GetDefaultStockList())
+            {
+                if (item.ItemName == merchName)
+                {
+                    stock = item;
+                }
+            }
+            return stock;
         }
 
-        public ObservableCollection<StockClass> GetCurrentDeliverysList()
+        /// <summary>
+        /// Locate a queued order
+        /// </summary>
+        /// <param name="name">Name of customer</param>
+        /// <returns></returns>
+        public QueuedOrder FindQueued(string name)
         {
-            return CurrentDeliverysList;
+            QueuedOrder queuedOrder = null;
+            foreach (var item in _app.QueuedOrders)
+            {
+                if (item.Customer.CustomerName == name)
+                {
+                    queuedOrder = item;
+                }
+            }
+            return queuedOrder;
         }
 
-        public ObservableCollection<CustomerOrderClass> GetCurrentCustomerOrders()
-        {
-            return CustomerOrders;
-        }
-
-        public static async void ShowMessage(string inputMessage)
+        public async Task MessageToUser(string inputMessage)
         {
             var message = new MessageDialog(inputMessage);
             await message.ShowAsync();
         }
 
-        #endregion Methods
+        #endregion
+
     }
 }

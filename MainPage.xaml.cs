@@ -1,213 +1,442 @@
 ﻿using GoldStarr_Trading.Classes;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
+
 namespace GoldStarr_Trading
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainPage : Page
-    {
-        // ObservableCollection Properties
+	/// <summary>
+	/// An empty page that can be used on its own or navigated to within a Frame.
+	/// </summary>
+	public sealed partial class MainPage : Page, INotifyPropertyChanged, IMessageToUser
+	{
+		StoreClass store;
+		private App _app;
 
-        #region Collections
 
-        private ObservableCollection<CustomerClass> CustomerList { get; set; }
-        private ObservableCollection<StockClass> StockList { get; set; }
-        private ObservableCollection<CustomerOrderClass> CustomerOrders { get; set; }
+		public MainPage()
+		{
+			this.InitializeComponent();
+			store = new StoreClass();
+			_app = (App)App.Current;
+		}
 
-        #endregion Collections
 
-        public MainPage()
-        {
-            this.InitializeComponent();
+		#region Events
 
-            DataContext = this;
+		
+		private void AddOrderContent_Click(object sender, RoutedEventArgs e)    // Adds a new order
+		{
+			var parent = (sender as Button).Parent;
+			CustomerClass customerOrderer = null;
+			StockClass stockOrder = null;
+			DateTime orderDate = DateTime.UtcNow;
 
-            StoreClass store = new StoreClass();
+			string orderQuantity = OrderQuantity.Text;
+			int.TryParse(orderQuantity, out int amount);
+			customerOrderer = (CustomerClass)CreateOrderTabCustomersComboBox.SelectedValue;
+			stockOrder = (StockClass)CreateOrderTabItemComboBox.SelectedValue;
 
-            InStockList.ItemsSource = store.GetCurrentStockList();
-            StockToAddList.ItemsSource = store.GetCurrentDeliverysList();
-            CustomerList = new ObservableCollection<CustomerClass>(store.GetCurrentCustomerList());
-            StockList = new ObservableCollection<StockClass>(store.GetCurrentStockList());
-            CustomerOrders = new ObservableCollection<CustomerOrderClass>(store.GetCurrentCustomerOrders());
-        }
+			if (customerOrderer == null || stockOrder == null)
+			{
+				MessageToUser("You must choose a customer and an item");
+			}
+			else if (orderQuantity == "" || orderQuantity == "" || amount == 0)
+			{
+				MessageToUser("You must enter an integer");
+			}
+			else
+			{
 
-        #region Events
+				if (orderQuantity != "" && stockOrder.Qty - amount >= 0)
+				{
+					// if no orders are present, simply add an order to the collection.
+					if (_app.GetDefaultCustomerOrdersList().Count == 0)
+					{
+						store.RemoveFromStock(stockOrder, amount);
 
-        private void AddOrderContent_Click(object sender, RoutedEventArgs e)
-        {
-            var parent = (sender as Button).Parent;
-            CustomerClass customerOrderer = null;
-            StockClass stockOrder = null;
-            List<StockClass> stockClass = new List<StockClass>();
+						StockClass order = new StockClass(stockOrder.ItemName, stockOrder.Supplier, amount);
 
-            DateTime orderDate = DateTime.UtcNow;
+						store.CreateOrder(customerOrderer, order);
 
-            string orderQuantity = OrderQuantity.Text;
-            int.TryParse(orderQuantity, out int amount);
+						MessageToUser($"You have successfully created a new Customer order \n\nCustomer: {customerOrderer.CustomerName} \nItem: {order.ItemName} " +
+									  $"\nAmount: {order.Qty} \nOrderdate: {orderDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")}");
 
-            customerOrderer = (CustomerClass)CreateOrderTabCustomersComboBox.SelectedValue;
+						CreateOrderTabCustomersComboBox.SelectedIndex = -1;
+						CreateOrderTabItemComboBox.SelectedIndex = -1;
+						OrderQuantity.Text = "";
+					}
 
-            stockOrder = (StockClass)CreateOrderTabItemComboBox.SelectedValue;
-            // If customer or merchandise are null
-            if (customerOrderer == null || stockOrder == null)
-            {
-                MessageToUser("You must choose a customer and an item");
-            }
-            // if orderQuantity is empty
-            else if (orderQuantity == "" || orderQuantity == " " ||  amount == 0)
-            {
-                MessageToUser("You must enter an integer");
-            }
-            else
-            {
-                // If orderQuantity is parseable, and orderQuantity isn't empty and stock - amount is larger or equal to zero
-                if (orderQuantity != "" && stockOrder.Qty - amount >= 0)
-                {
-                    // if no orders are present, simply add an order to the collection.
-                    if (CustomerOrders.Count == 0)
-                    {
-                        stockOrder.Qty -= amount;
-                        StockClass order = new StockClass(stockOrder.ItemName, stockOrder.Supplier, amount);
-                        stockClass.Add(order);
+					// Otherwise create a new order object, prepared for future functionality
+					else
+					{
+						store.RemoveFromStock(stockOrder, amount);
 
-                        CustomerOrders.Add(new CustomerOrderClass(customerOrderer, stockClass, orderDate));
+						StockClass order = new StockClass(stockOrder.ItemName, stockOrder.Supplier, amount);
 
-                        MessageToUser($"You have successfully created a new Customer order \n\nCustomer:{customerOrderer.CustomerName} \nItem: {order.ItemName} \nAmount: {order.Qty} \nOrderdate: {orderDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")}");
-                        
-                        CreateOrderTabCustomersComboBox.SelectedIndex = -1;
-                        CreateOrderTabItemComboBox.SelectedIndex = -1;
-                        OrderQuantity.Text = "";
-                    }
+						store.CreateOrder(customerOrderer, order);
 
-                    // Otherwise create a new order object, prepared for future functionality
-                    else
-                    {
-                        stockOrder.Qty -= amount;
-                        StockClass orderToAdd = new StockClass(stockOrder.ItemName, stockOrder.Supplier, amount);
-                        stockClass.Add(orderToAdd);
+						MessageToUser($"You have successfully created a new Customer order \n\nCustomer: {customerOrderer.CustomerName} \nItem: {order.ItemName} " +
+									  $"\nAmount: {order.Qty} \nOrderdate: {orderDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")}");
 
-                        CustomerOrders.Add(new CustomerOrderClass(customerOrderer, stockClass, orderDate));
+						CreateOrderTabCustomersComboBox.SelectedIndex = -1;
+						CreateOrderTabItemComboBox.SelectedIndex = -1;
+						OrderQuantity.Text = "";
+					}
+				}
+				else   // If stock is missing item or low on stock order gets Queued
+				{
+					int currQ = _app.QueuedOrders.Count + 1;
+					store.CreateOrder(customerOrderer, stockOrder, amount, currQ);
+					MessageToUser($"You have successfully created a new Customer order \n\nCustomer: {customerOrderer.CustomerName} \nItem: {stockOrder.ItemName} " +
+								  $"\nAmount: {amount} \nOrderdate: {orderDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")} \nYour order is placed at number {currQ} in the queue.");
+					CreateOrderTabCustomersComboBox.SelectedIndex = -1;
+					CreateOrderTabItemComboBox.SelectedIndex = -1;
+					OrderQuantity.Text = "";
+				}
+			}
+		}
 
-                        MessageToUser($"You have successfully created a new Customer order \n\nCustomer:{customerOrderer.CustomerName} \nItem: {orderToAdd.ItemName} \nAmount: {orderToAdd.Qty} \nOrderdate: {orderDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")}");
+		private void BtnAddDeliveredMerchandise_Click(object sender, RoutedEventArgs e)		// Adds incoming deliveries to stock
+		{
+			var parent = (sender as Button).Parent;
 
-                        CreateOrderTabCustomersComboBox.SelectedIndex = -1;
-                        CreateOrderTabItemComboBox.SelectedIndex = -1;
-                        OrderQuantity.Text = "";
-                    }
-                }
-                else
-                {
-                    MessageToUser("Not enough items in stock, order more from supplier, or change amount to add");
 
-                    OrderQuantity.Text = "";
-                }
-            }
-        }
+			TextBox valueToAdd = parent.GetChildrenOfType<TextBox>().First(x => x.Name == "TxtBoxAddQty");
+			TextBlock valueToCheck = parent.GetChildrenOfType<TextBlock>().First(x => x.Name == "QTY");
+			TextBlock itemToAdd = parent.GetChildrenOfType<TextBlock>().First(x => x.Name == "ItemName");
 
-        // Add item from the Deliveries page to stock.
-        private void BtnAddDeliveredMerchandise_Click(object sender, RoutedEventArgs e)
-        {
-            var parent = (sender as Button).Parent;
-            // Get the objects containing data.
-            TextBox valueToAdd = parent.GetChildrenOfType<TextBox>().First(x => x.Name == "TxtBoxAddQty");
-            TextBlock valueToCheck = parent.GetChildrenOfType<TextBlock>().First(x => x.Name == "QTY");
-            TextBlock itemToAdd = parent.GetChildrenOfType<TextBlock>().First(x => x.Name == "ItemName");
+			string toConvert = valueToAdd.Text;
+			int intValueToAdd = 0;
+			int intValueToCheck = Convert.ToInt32(valueToCheck.Text);
 
-            string toConvert = valueToAdd.Text;
-            int intValueToAdd = 0;
-            int intValueToCheck = Convert.ToInt32(valueToCheck.Text);
+			// Add incoming deliveries to stock
+			if (int.TryParse(toConvert, out intValueToAdd))
+			{
+				if (intValueToAdd > intValueToCheck)
+				{
+					MessageToUser($"Enter the correct number of stock to submit, maximum number to submit is: {intValueToCheck} ");
+					valueToAdd.Text = "";
+				}
+				else
+				{
+					StockClass merch = null;
 
-            if (int.TryParse(toConvert, out intValueToAdd))
-            {
-                if (intValueToAdd > intValueToCheck)
-                {
-                    MessageToUser($"Enter the correct number of stock to submit, maximum number to submit is: {intValueToCheck} ");
-                    valueToAdd.Text = "";
-                }
-                else
-                {
-                    StockClass merch = null;
+					foreach (var item in _app.GetDefaultStockList())
+					{
+						if (item.ItemName == itemToAdd.Text)
+						{
+							merch = item;
+						}
+					}
 
-                    foreach (var item in StockList)
-                    {
-                        if (item.ItemName == itemToAdd.Text)
-                        {
-                            merch = item;
-                        }
-                    }
+					store.AddToStock(merch, intValueToAdd);
 
-                    StoreClass.AddToStock(merch, intValueToAdd);
-                    MessageToUser($"You have added: {valueToAdd.Text} {itemToAdd.Text} to your stock");
-                    valueToAdd.Text = "";
-                }
-            }
-            else
-            {
-                MessageToUser("You must enter an integer");
-            }
-        }
+					MessageToUser($"You have added: {valueToAdd.Text} {itemToAdd.Text} to your stock");
+					valueToAdd.Text = "";
 
-        private void CustomersTabComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string customerName = e.AddedItems[0].ToString();
+				}
+			}
+			else
+			{
+				MessageToUser("You must enter an integer");
+			}
+		}
 
-            CustomerClass newCustomer = CustomerList.First(x => x.CustomerName == customerName);
-            CustomerName.Text = newCustomer.CustomerName;
-            CustomerPhoneNumber.Text = newCustomer.CustomerPhone;
-            CustomerAddress.Text = newCustomer.CustomerAddress;
-            CustomerZipCode.Text = newCustomer.CustomerZipCode;
-            CustomerCity.Text = newCustomer.CustomerCity;
-        }
+		private void CustomersTabComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)		// Sets customer info based on combobox value
+		{
+			string customerName = e.AddedItems[0].ToString();
 
-        #endregion Events
+			CustomerClass newCustomer = _app.GetDefaultCustomerList().First(x => x.CustomerName == customerName);
 
-        #region Methods
+			CustomerName.Text = newCustomer.CustomerName;
+			CustomerPhoneNumber.Text = newCustomer.CustomerPhone;
+			CustomerAddress.Text = newCustomer.CustomerAddress;
+			CustomerZipCode.Text = newCustomer.CustomerZipCode;
+			CustomerCity.Text = newCustomer.CustomerCity;
+			CustomerEmail.Text = newCustomer.CustomerEmail;
+		}
 
-        public static async void MessageToUser(string inputMessage)
-        {
-            var message = new MessageDialog(inputMessage);
-            await message.ShowAsync();
-        }
+		private void CustomerAddButton_Click(object sender, RoutedEventArgs e)		// Adds new customer
+		{
 
-        #endregion Methods
-    }
+			if (AddNewCustomerName.Text == "" || AddNewCustomerName.Text == " " || AddNewCustomerPhoneNumber.Text == "" || AddNewCustomerPhoneNumber.Text == " " || AddNewCustomerAddress.Text == "" || AddNewCustomerAddress.Text == " " || AddNewCustomerZipCode.Text == "" || AddNewCustomerZipCode.Text == "" || AddNewCustomerCity.Text == "" || AddNewCustomerCity.Text == " ")
+			{
+				MessageToUser("All textboxes must be filled in");
 
-    #region Help Class
+			}
+			else
+			{
 
-    public static class Extensions
-    {
-        public static IEnumerable<T> GetChildrenOfType<T>(this DependencyObject start) where T : class
-        {
-            var queue = new Queue<DependencyObject>();
-            queue.Enqueue(start);
+				#region Variables
+				string name = AddNewCustomerName.Text;
+				string phone = AddNewCustomerPhoneNumber.Text;
+				string address = AddNewCustomerAddress.Text;
+				string zipCode = AddNewCustomerZipCode.Text;
+				string city = AddNewCustomerCity.Text;
+				string email = AddNewCustomerEmail.Text;
+				#endregion
 
-            while (queue.Count > 0)
-            {
-                var item = queue.Dequeue();
+				#region Regex
 
-                var realItem = item as T;
-                if (realItem != null)
-                {
-                    yield return realItem;
-                }
+				//Regex is used for user input validation
+				Regex regexToCheckName = new Regex(@"^([A-ZÅÄÖ]\w*[a-zåäö]+\s[A-ZÅÄÖ]\w*[a-zåäö]+)$");                                              //Firstname and Lastname must start with capitol letters
+				Regex regexToCheckPhone = new Regex(@"^(\+?\d{2}\-?\s?)?\d{4}\-?\s?\d{3}\-?\s?\d{3}$");                                             //Must be in these formats +46 0707-123 456, +46 0707-123456, +46 0707-123-456, 0707 123 456
+				Regex regexToCheckAddress = new Regex(@"^(([A-ZÅÄÖ]\w*[a-zåäö]+|[A-ZÅÄÖ]\w*[a-zåäö]+\s[a-zA-ZåäöÅÄÖ]\w*[a-zåäö]+)+\s?\d{0,3})+$");  //Adress must start with capitol letter with optional second part and digits at end
+				Regex regexToCheckZipCode = new Regex(@"^\d{3}\s?\d{2}$");                                                                          //Must be in the format xxx xx
+				Regex regexToCheckCity = new Regex(@"^([A-ZÅÄÖ]\w*[a-zåäö]+|[A-ZÅÄÖ]\w*[a-zåäö]+\s[a-zA-ZåäöÅÄÖ]+)$");                              //Must start with capitol letter and can have a optional second part
+				Regex regexToCheckEmail = new Regex(@"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|([a-zA-Z0-9]+[\w-]+\.)+[a-zA-Z]{1}[a-zA-Z0-9-]{1,23})$");
+				//Regex to check for valid email formats ex firstname.lastname@domain.com
+				#endregion
 
-                int count = VisualTreeHelper.GetChildrenCount(item);
-                for (int i = 0; i < count; i++)
-                {
-                    queue.Enqueue(VisualTreeHelper.GetChild(item, i));
-                }
-            }
-        }
-    }
+				#region Input Validation 
 
-    #endregion Help Class
+				// Input validation with Regex
+				if (!regexToCheckName.IsMatch(name))
+				{
+					MessageToUser("Enter first and last name in the correct format names starting with capitol letters: \n\nEx: Firstname Lastname");
+					return;
+				}
+				if (!regexToCheckPhone.IsMatch(phone))
+				{
+					MessageToUser("Enter phone number in the correct format: \n\nEx: +46 0707-123 456, +46 0707-123456, +46 0707-123-456, 0707-123 456, 0707 123 456");
+					return;
+				}
+				if (!regexToCheckAddress.IsMatch(address))
+				{
+					MessageToUser("Enter address in the correct format. Every word must start with a capitol letter: \n\nEx: Street + no, Street, Two Word Street: Capitol Road + no, Two Word Street: Capitol Road");
+					return;
+				}
+				if (!regexToCheckZipCode.IsMatch(zipCode))
+				{
+					MessageToUser("Enter zipcode in the correct format: \n\nEx: 123 45");
+					return;
+				}
+				if (!regexToCheckCity.IsMatch(city))
+				{
+					MessageToUser("Enter city name in the correct format. Every word must start with a capitol letter: \n\nEx: City, Two Word City: Capitol City");
+					return;
+				}
+
+				#endregion
+
+
+
+				if (email == "" || email == " ")
+				{
+					_app.GetDefaultCustomerList().Add(new CustomerClass(name, address, zipCode, city, phone));
+				}
+				else
+				{
+					if (!regexToCheckEmail.IsMatch(email))
+					{
+						MessageToUser("Enter email in the correct format: \n\nEx: example@domain.com, example.example2@domain.net");
+						return;
+					}
+					else
+					{
+						_app.GetDefaultCustomerList().Add(new CustomerClass(name, address, zipCode, city, phone, email));
+					}
+				}
+
+				MessageToUser($"You have successfully added a new customer to your customer list \n\nCustomer name: {name}");
+
+
+				#region Reset TextBoxes
+				AddNewCustomerName.Text = "";
+				AddNewCustomerPhoneNumber.Text = "";
+				AddNewCustomerAddress.Text = "";
+				AddNewCustomerZipCode.Text = "";
+				AddNewCustomerCity.Text = "";
+				AddNewCustomerEmail.Text = "";
+				#endregion
+
+			}
+
+		}
+
+		private void CustomerClearFormButton_Click(object sender, RoutedEventArgs e)	// Resets all fields in Add new Customer view
+		{
+			AddNewCustomerName.Text = "";
+			AddNewCustomerPhoneNumber.Text = "";
+			AddNewCustomerAddress.Text = "";
+			AddNewCustomerZipCode.Text = "";
+			AddNewCustomerCity.Text = "";
+			AddNewCustomerEmail.Text = "";
+		}
+
+		private void PendingOrdersBtnSend_Click(object sender, RoutedEventArgs e)	// Sends pending order one by one
+		{
+			var parent = (sender as Button).Parent;
+			TextBlock cn = parent.GetChildrenOfType<TextBlock>().First(x => x.Name == "PendingOrdersCustomerName");
+			QueuedOrder queuedOrder = store.FindQueued(cn.Text);
+			store.SendOrder(queuedOrder);
+		}
+
+		private void PendingOrdersBtnSendAll_Click(object sender, RoutedEventArgs e)	// Sends all pending orders
+		{
+			store.TrySendQO();
+		}	
+
+		private void SuppliersTabComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)		// Sets Supplier info based on combobox value
+		{
+			string supplierName = e.AddedItems[0].ToString();
+
+			Supplier showSupplier = _app.Suppliers.First(x => x.SupplierName == supplierName);
+
+			SupplierName.Text = showSupplier.SupplierName;
+			SupplierPhoneNumber.Text = showSupplier.SupplierPhone;
+			SupplierAddress.Text = showSupplier.SupplierAddress;
+			SupplierZipCode.Text = showSupplier.SupplierZipCode;
+			SupplierCity.Text = showSupplier.SupplierCity;
+		}
+
+		private async void SupplierAddButton_Click(object sender, RoutedEventArgs e)	// Adds a new supplier
+		{
+			if (AddNewSupplierName.Text == "" || AddNewSupplierName.Text == " " || AddNewSupplierPhoneNumber.Text == "" || AddNewSupplierPhoneNumber.Text == " " || AddNewSupplierAddress.Text == "" || AddNewSupplierAddress.Text == " " || AddNewSupplierZipCode.Text == "" || AddNewSupplierZipCode.Text == "" || AddNewSupplierCity.Text == "" || AddNewSupplierCity.Text == " ")
+			{
+				MessageToUser("All textboxes must be filled in");
+			}
+			else
+			{
+				#region Variables
+				string name = AddNewSupplierName.Text;
+				string phone = AddNewSupplierPhoneNumber.Text;
+				string address = AddNewSupplierAddress.Text;
+				string zipCode = AddNewSupplierZipCode.Text;
+				string city = AddNewSupplierCity.Text;
+				#endregion
+
+				#region Regex
+
+				//Regex is used for user input validation
+				Regex regexToCheckName = new Regex(@"^(([A-ZÅÄÖ]\w*[a-zåäö]+|[A-ZÅÄÖ]\w*[a-zåäö]+\s[a-zA-ZåäöÅÄÖ]\w*[a-zåäö]+)+\s?[A-ZÅÄÖ]\w*[a-zA-ZåäöÅÄÖ])+$");   //Company name one or two words and must end with Inc, AB etc
+				Regex regexToCheckPhone = new Regex(@"^(\+?\d{2}\-?\s?)?\d{4}\-?\s?\d{3}\-?\s?\d{3}$");                                                             //Must be in these formats +46 0707-123 456, +46 0707-123456, +46 0707-123-456, 0707 123 456
+				Regex regexToCheckAddress = new Regex(@"^(([A-ZÅÄÖ]\w*[a-zåäö]+|[A-ZÅÄÖ]\w*[a-zåäö]+\s[a-zA-ZåäöÅÄÖ]\w*[a-zåäö]+)+\s?\d{0,3})+$");                  //Adress must start with capitol letter with optional second part and digits at end
+				Regex regexToCheckZipCode = new Regex(@"^\d{3}\s?\d{2}$");                                                                                          //Must be in the format xxx xx
+				Regex regexToCheckCity = new Regex(@"^([A-ZÅÄÖ]\w*[a-zåäö]+|[A-ZÅÄÖ]\w*[a-zåäö]+\s[a-zA-ZåäöÅÄÖ]+)$");                                              //Must start with capitol letter and can have a optional second part
+				#endregion
+
+				#region Input Validation
+
+				// Input validation with Regex
+				if (!regexToCheckName.IsMatch(name))
+				{
+					MessageToUser("Enter company name in the correct format names starting with capitol letters and end with corporate form: \n\nEx: Company Name Inc");
+					return;
+				}
+				if (!regexToCheckPhone.IsMatch(phone))
+				{
+					MessageToUser("Enter phone number in the correct format: \n\nEx: +46 0707-123 456, +46 0707-123456, +46 0707-123-456, 0707-123 456, 0707 123 456");
+					return;
+				}
+				if (!regexToCheckAddress.IsMatch(address))
+				{
+					MessageToUser("Enter address in the correct format. Every word must start with a capitol letter: \n\nEx: Street + no, Street, Two Word Street: Capitol Road + no, Two Word Street: Capitol Road");
+					return;
+				}
+				if (!regexToCheckZipCode.IsMatch(zipCode))
+				{
+					MessageToUser("Enter zipcode in the correct format: \n\nEx: 123 45");
+					return;
+				}
+				if (!regexToCheckCity.IsMatch(city))
+				{
+					MessageToUser("Enter city name in the correct format. Every word must start with a capitol letter: \n\nEx: City, Two Word City: Capitol City");
+					return;
+				}
+				#endregion
+
+
+				MessageToUser($"You have successfully added a new supplier to your supplier list \n\nSupplier name: {name}");
+
+				_app.Suppliers.Add(new Supplier(name, address, zipCode, city, phone));
+				await _app.WriteToFile(App.SuppliersFileName, _app.Suppliers);
+
+				#region Reset TextBoxes
+				AddNewSupplierName.Text = "";
+				AddNewSupplierPhoneNumber.Text = "";
+				AddNewSupplierAddress.Text = "";
+				AddNewSupplierZipCode.Text = "";
+				AddNewSupplierCity.Text = "";
+				#endregion
+			}
+		}
+
+		private void SupplierClearFormButton_Click(object sender, RoutedEventArgs e)	// Resets all fields in Add new Supplier view
+		{
+			AddNewSupplierName.Text = "";
+			AddNewSupplierPhoneNumber.Text = "";
+			AddNewSupplierAddress.Text = "";
+			AddNewSupplierZipCode.Text = "";
+			AddNewSupplierCity.Text = "";
+		}
+
+
+		#endregion
+
+
+
+		#region Methods
+
+		public async Task MessageToUser(string inputMessage)
+		{
+			var message = new MessageDialog(inputMessage);
+			await message.ShowAsync();
+		}
+
+		#region PropertyChangedEventHandler
+		public event PropertyChangedEventHandler PropertyChanged;
+		private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+		{
+			if (PropertyChanged != null)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		#endregion
+
+		#endregion
+
+	}
+
+	#region Help Class
+	public static class Extensions		// Used to get info out of listview Textboxes, Buttons etc  
+	{
+		public static IEnumerable<T> GetChildrenOfType<T>(this DependencyObject start) where T : class
+		{
+			var queue = new Queue<DependencyObject>();
+			queue.Enqueue(start);
+
+			while (queue.Count > 0)
+			{
+				var item = queue.Dequeue();
+
+				var realItem = item as T;
+				if (realItem != null)
+				{
+					yield return realItem;
+				}
+
+				int count = VisualTreeHelper.GetChildrenCount(item);
+				for (int i = 0; i < count; i++)
+				{
+					queue.Enqueue(VisualTreeHelper.GetChild(item, i));
+				}
+			}
+		}
+	}
+	#endregion
+
 }

@@ -1,31 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="GoldStarr_Trading.Classes.CustomerClass">
-    <Position X="3" Y="0.5" Width="2" />
+    <Position X="7.5" Y="0.5" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>EEAAAAAABAAQAAgkIAAACAAAwAAQAAAAAAAAAAABEAA=</HashCode>
+      <HashCode>AEAAAAAABAAQAAgkIAAACAAAwAAQAAAAAAAAAAABEAA=</HashCode>
       <FileName>Classes\CustomerClass.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="GoldStarr_Trading.Classes.CustomerOrderClass">
-    <Position X="5.25" Y="0.5" Width="2" />
+    <Position X="11.5" Y="0.5" Width="4" />
     <TypeIdentifier>
-      <HashCode>AAEAAQAAAAAAAAAAIAAAIAQAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>CAEAAQAAAAAAAAAAIAAAIAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\CustomerOrderClass.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="GoldStarr_Trading.Classes.MerchandiseClass">
-    <Position X="10" Y="0.5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAIAAACAAIAAAAAIAIAAAIAgGAACAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Classes\MerchandiseClass.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="GoldStarr_Trading.Classes.StockClass">
-    <Position X="7.5" Y="0.5" Width="2.25" />
+    <Position X="3.5" Y="0.5" Width="3.75" />
     <TypeIdentifier>
       <HashCode>AAAEAgBAAABAAIAAIAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\StockClass.cs</FileName>
@@ -33,17 +25,10 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="GoldStarr_Trading.Classes.StoreClass">
-    <Position X="0.5" Y="0.5" Width="2.25" />
+    <Position X="0.5" Y="0.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AQAIIIgAAAAQAAAAAAAAAAABAAAAABAAABAAMAAQAIA=</HashCode>
+      <HashCode>AQAAAAgAAAAQAAAAAAAAAAAAAEAAABAAAAAAEAAAAAA=</HashCode>
       <FileName>Classes\StoreClass.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="GoldStarr_Trading.Classes.DataSets">
-    <Position X="12.25" Y="0.5" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAEAAIBAAAAAgAAAAAAAAAAAgAAAAAAAAAAIAAAQAAA=</HashCode>
-      <FileName>Classes\DataSets.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="10" />

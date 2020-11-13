@@ -1,12 +1,7 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
-namespace GoldStarr_Trading.Classes
+﻿namespace GoldStarr_Trading.Classes
 {
-    public class CustomerClass : INotifyPropertyChanged
+    public class CustomerClass : BaseNotifier
     {
-        // Properties with onProperyChanged called after changes.
-
         #region Properties
 
         private string _customerName;
@@ -64,7 +59,7 @@ namespace GoldStarr_Trading.Classes
                 if (_customerCity != value)
                 {
                     _customerCity = value;
-                    this.OnPropertyChanged();
+                    base.OnPropertyChanged();
                 }
             }
         }
@@ -79,8 +74,20 @@ namespace GoldStarr_Trading.Classes
                 if (_customerPhone != value)
                 {
                     _customerPhone = value;
-                    this.OnPropertyChanged();
+                    base.OnPropertyChanged();
                 }
+            }
+        }
+
+        private string _customerEmail;
+
+        public string CustomerEmail
+        {
+            get => _customerEmail;
+            set
+            {
+                _customerEmail = value;
+                base.OnPropertyChanged();
             }
         }
 
@@ -88,6 +95,11 @@ namespace GoldStarr_Trading.Classes
 
         #region Constructors
 
+
+        public CustomerClass()
+        {
+
+        }
         public CustomerClass(string name, string address, string zipCode, string city, string phone)
         {
             CustomerName = name;
@@ -96,24 +108,23 @@ namespace GoldStarr_Trading.Classes
             CustomerCity = city;
             CustomerPhone = phone;
         }
-
+        public CustomerClass(string name, string address, string zipCode, string city, string phone, string email)
+        {
+            CustomerName = name;
+            CustomerAddress = address;
+            CustomerZipCode = zipCode;
+            CustomerCity = city;
+            CustomerPhone = phone;
+            CustomerEmail = email;
+        }
         #endregion Constructors
 
         #region Methods
 
-        public override string ToString()   //Used in main
+        public override string ToString()
         {
             return CustomerName;
         }
-
-        #region PropertyChangedEventHandler
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        #endregion PropertyChangedEventHandler
 
         #endregion Methods
     }
