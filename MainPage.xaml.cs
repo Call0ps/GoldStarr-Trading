@@ -34,7 +34,8 @@ namespace GoldStarr_Trading
 
 		#region Events
 
-		private void AddOrderContent_Click(object sender, RoutedEventArgs e)
+		
+		private void AddOrderContent_Click(object sender, RoutedEventArgs e)    // Adds a new order
 		{
 			var parent = (sender as Button).Parent;
 			CustomerClass customerOrderer = null;
@@ -93,7 +94,7 @@ namespace GoldStarr_Trading
 						OrderQuantity.Text = "";
 					}
 				}
-				else
+				else   // If stock is missing item or low on stock order gets Queued
 				{
 					int currQ = _app.QueuedOrders.Count + 1;
 					store.CreateOrder(customerOrderer, stockOrder, amount, currQ);
@@ -106,7 +107,7 @@ namespace GoldStarr_Trading
 			}
 		}
 
-		private void BtnAddDeliveredMerchandise_Click(object sender, RoutedEventArgs e)
+		private void BtnAddDeliveredMerchandise_Click(object sender, RoutedEventArgs e)		// Adds incoming deliveries to stock
 		{
 			var parent = (sender as Button).Parent;
 
@@ -119,6 +120,7 @@ namespace GoldStarr_Trading
 			int intValueToAdd = 0;
 			int intValueToCheck = Convert.ToInt32(valueToCheck.Text);
 
+			// Add incoming deliveries to stock
 			if (int.TryParse(toConvert, out intValueToAdd))
 			{
 				if (intValueToAdd > intValueToCheck)
@@ -151,11 +153,12 @@ namespace GoldStarr_Trading
 			}
 		}
 
-		private void CustomersTabComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void CustomersTabComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)		// Sets customer info based on combobox value
 		{
 			string customerName = e.AddedItems[0].ToString();
 
 			CustomerClass newCustomer = _app.GetDefaultCustomerList().First(x => x.CustomerName == customerName);
+
 			CustomerName.Text = newCustomer.CustomerName;
 			CustomerPhoneNumber.Text = newCustomer.CustomerPhone;
 			CustomerAddress.Text = newCustomer.CustomerAddress;
@@ -164,7 +167,7 @@ namespace GoldStarr_Trading
 			CustomerEmail.Text = newCustomer.CustomerEmail;
 		}
 
-		private void CustomerAddButton_Click(object sender, RoutedEventArgs e)
+		private void CustomerAddButton_Click(object sender, RoutedEventArgs e)		// Adds new customer
 		{
 
 			if (AddNewCustomerName.Text == "" || AddNewCustomerName.Text == " " || AddNewCustomerPhoneNumber.Text == "" || AddNewCustomerPhoneNumber.Text == " " || AddNewCustomerAddress.Text == "" || AddNewCustomerAddress.Text == " " || AddNewCustomerZipCode.Text == "" || AddNewCustomerZipCode.Text == "" || AddNewCustomerCity.Text == "" || AddNewCustomerCity.Text == " ")
@@ -181,11 +184,12 @@ namespace GoldStarr_Trading
 				string address = AddNewCustomerAddress.Text;
 				string zipCode = AddNewCustomerZipCode.Text;
 				string city = AddNewCustomerCity.Text;
-				string email = null;
-				email = AddNewCustomerEmail.Text;
+				string email = AddNewCustomerEmail.Text;
 				#endregion
 
 				#region Regex
+
+				//Regex is used for user input validation
 				Regex regexToCheckName = new Regex(@"^([A-ZÅÄÖ]\w*[a-zåäö]+\s[A-ZÅÄÖ]\w*[a-zåäö]+)$");                                              //Firstname and Lastname must start with capitol letters
 				Regex regexToCheckPhone = new Regex(@"^(\+?\d{2}\-?\s?)?\d{4}\-?\s?\d{3}\-?\s?\d{3}$");                                             //Must be in these formats +46 0707-123 456, +46 0707-123456, +46 0707-123-456, 0707 123 456
 				Regex regexToCheckAddress = new Regex(@"^(([A-ZÅÄÖ]\w*[a-zåäö]+|[A-ZÅÄÖ]\w*[a-zåäö]+\s[a-zA-ZåäöÅÄÖ]\w*[a-zåäö]+)+\s?\d{0,3})+$");  //Adress must start with capitol letter with optional second part and digits at end
@@ -195,7 +199,9 @@ namespace GoldStarr_Trading
 				//Regex to check for valid email formats ex firstname.lastname@domain.com
 				#endregion
 
-				#region Input Validation
+				#region Input Validation 
+
+				// Input validation with Regex
 				if (!regexToCheckName.IsMatch(name))
 				{
 					MessageToUser("Enter first and last name in the correct format names starting with capitol letters: \n\nEx: Firstname Lastname");
@@ -259,7 +265,7 @@ namespace GoldStarr_Trading
 
 		}
 
-		private void CustomerClearFormButton_Click(object sender, RoutedEventArgs e)
+		private void CustomerClearFormButton_Click(object sender, RoutedEventArgs e)	// Resets all fields in Add new Customer view
 		{
 			AddNewCustomerName.Text = "";
 			AddNewCustomerPhoneNumber.Text = "";
@@ -269,7 +275,7 @@ namespace GoldStarr_Trading
 			AddNewCustomerEmail.Text = "";
 		}
 
-		private void PendingOrdersBtnSend_Click(object sender, RoutedEventArgs e)
+		private void PendingOrdersBtnSend_Click(object sender, RoutedEventArgs e)	// Sends pending order one by one
 		{
 			var parent = (sender as Button).Parent;
 			TextBlock cn = parent.GetChildrenOfType<TextBlock>().First(x => x.Name == "PendingOrdersCustomerName");
@@ -277,16 +283,17 @@ namespace GoldStarr_Trading
 			store.SendOrder(queuedOrder);
 		}
 
-		private void PendingOrdersBtnSendAll_Click(object sender, RoutedEventArgs e)
+		private void PendingOrdersBtnSendAll_Click(object sender, RoutedEventArgs e)	// Sends all pending orders
 		{
 			store.TrySendQO();
-		}
+		}	
 
-		private void SuppliersTabComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void SuppliersTabComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)		// Sets Supplier info based on combobox value
 		{
 			string supplierName = e.AddedItems[0].ToString();
 
 			Supplier showSupplier = _app.Suppliers.First(x => x.SupplierName == supplierName);
+
 			SupplierName.Text = showSupplier.SupplierName;
 			SupplierPhoneNumber.Text = showSupplier.SupplierPhone;
 			SupplierAddress.Text = showSupplier.SupplierAddress;
@@ -294,7 +301,7 @@ namespace GoldStarr_Trading
 			SupplierCity.Text = showSupplier.SupplierCity;
 		}
 
-		private async void SupplierAddButton_Click(object sender, RoutedEventArgs e)
+		private async void SupplierAddButton_Click(object sender, RoutedEventArgs e)	// Adds a new supplier
 		{
 			if (AddNewSupplierName.Text == "" || AddNewSupplierName.Text == " " || AddNewSupplierPhoneNumber.Text == "" || AddNewSupplierPhoneNumber.Text == " " || AddNewSupplierAddress.Text == "" || AddNewSupplierAddress.Text == " " || AddNewSupplierZipCode.Text == "" || AddNewSupplierZipCode.Text == "" || AddNewSupplierCity.Text == "" || AddNewSupplierCity.Text == " ")
 			{
@@ -311,6 +318,8 @@ namespace GoldStarr_Trading
 				#endregion
 
 				#region Regex
+
+				//Regex is used for user input validation
 				Regex regexToCheckName = new Regex(@"^(([A-ZÅÄÖ]\w*[a-zåäö]+|[A-ZÅÄÖ]\w*[a-zåäö]+\s[a-zA-ZåäöÅÄÖ]\w*[a-zåäö]+)+\s?[A-ZÅÄÖ]\w*[a-zA-ZåäöÅÄÖ])+$");   //Company name one or two words and must end with Inc, AB etc
 				Regex regexToCheckPhone = new Regex(@"^(\+?\d{2}\-?\s?)?\d{4}\-?\s?\d{3}\-?\s?\d{3}$");                                                             //Must be in these formats +46 0707-123 456, +46 0707-123456, +46 0707-123-456, 0707 123 456
 				Regex regexToCheckAddress = new Regex(@"^(([A-ZÅÄÖ]\w*[a-zåäö]+|[A-ZÅÄÖ]\w*[a-zåäö]+\s[a-zA-ZåäöÅÄÖ]\w*[a-zåäö]+)+\s?\d{0,3})+$");                  //Adress must start with capitol letter with optional second part and digits at end
@@ -319,6 +328,8 @@ namespace GoldStarr_Trading
 				#endregion
 
 				#region Input Validation
+
+				// Input validation with Regex
 				if (!regexToCheckName.IsMatch(name))
 				{
 					MessageToUser("Enter company name in the correct format names starting with capitol letters and end with corporate form: \n\nEx: Company Name Inc");
@@ -362,7 +373,7 @@ namespace GoldStarr_Trading
 			}
 		}
 
-		private void SupplierClearFormButton_Click(object sender, RoutedEventArgs e)
+		private void SupplierClearFormButton_Click(object sender, RoutedEventArgs e)	// Resets all fields in Add new Supplier view
 		{
 			AddNewSupplierName.Text = "";
 			AddNewSupplierPhoneNumber.Text = "";
@@ -401,7 +412,7 @@ namespace GoldStarr_Trading
 	}
 
 	#region Help Class
-	public static class Extensions
+	public static class Extensions		// Used to get info out of listview Textboxes, Buttons etc  
 	{
 		public static IEnumerable<T> GetChildrenOfType<T>(this DependencyObject start) where T : class
 		{

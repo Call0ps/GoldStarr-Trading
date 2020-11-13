@@ -105,7 +105,7 @@ namespace GoldStarr_Trading.Classes
         }
 
         /// <summary>
-        /// Method to send all Queued orders (Not implemented but there in case of future use)
+        /// Method to send all Queued orders
         /// </summary>
         public void TrySendQO()
         {

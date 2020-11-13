@@ -18,7 +18,9 @@ namespace GoldStarr_Trading
     sealed partial class App : Application
     {
 
-        #region Collections
+
+        #region Collections/Fields/Properties
+
         BaseNotifier baseNotifier = new BaseNotifier();
 
         public const string CustomerFileName = "Customer.json";
@@ -29,11 +31,10 @@ namespace GoldStarr_Trading
         public const string SuppliersFileName = "Suppliers.json";
 
 
-
-        private ObservableCollection<CustomerClass> Customer { get; set; } //= new ObservableCollection<CustomerClass>();
-        private ObservableCollection<StockClass> Stock { get; set; }  //= new ObservableCollection<StockClass>();
-        private ObservableCollection<StockClass> IncomingDeliverys { get; set; } //= new ObservableCollection<StockClass>();
-        private ObservableCollection<CustomerOrderClass> CustomerOrders { get; set; }  //= new ObservableCollection<CustomerOrderClass>();  
+        private ObservableCollection<CustomerClass> Customer { get; set; }
+        private ObservableCollection<StockClass> Stock { get; set; }
+        private ObservableCollection<StockClass> IncomingDeliverys { get; set; }
+        private ObservableCollection<CustomerOrderClass> CustomerOrders { get; set; }
 
         
 
@@ -110,10 +111,13 @@ namespace GoldStarr_Trading
 
 
 
-            #region CustomerCollectionHandling
+            #region CustomerCollection Handling
 
+            // Checks if file contains collection. If true reads from file
             DataHelper CustomerHelper = new DataHelper(CustomerFileName);
             Customer = await CustomerHelper.ReadFromFile<ObservableCollection<CustomerClass>>();
+
+            // If no collection is in file a default collection is written to file
             if (Customer == null)
             {
                 Customer = new ObservableCollection<CustomerClass>();
@@ -128,7 +132,7 @@ namespace GoldStarr_Trading
                 Customer.CollectionChanged += Customer_CollectionChanged;
 
             }
-            else
+            else    // Writes to file and calls collection changed
             {
                 await WriteToFile(CustomerFileName, Customer);
                 Customer.CollectionChanged += Customer_CollectionChanged;
@@ -138,9 +142,11 @@ namespace GoldStarr_Trading
 
             #region StockCollection Handling
 
+            // Checks if file contains collection. If true reads from file
             DataHelper StockHelper = new DataHelper(StockFileName);
             Stock = await StockHelper.ReadFromFile<ObservableCollection<StockClass>>();
 
+            // If no collection is in file a default collection is written to file
             if (Stock == null)
             {
                 Stock = new ObservableCollection<StockClass>();
@@ -154,7 +160,7 @@ namespace GoldStarr_Trading
                 await WriteToFile(StockFileName, Stock);
                 Stock.CollectionChanged += Stock_CollectionChanged;
             }
-            else
+            else    // Writes to file and calls collection changed
             {
                 await WriteToFile(StockFileName, Stock);
                 Stock.CollectionChanged += Stock_CollectionChanged;
@@ -164,9 +170,11 @@ namespace GoldStarr_Trading
 
             #region IncomingDeliverys Handling
 
+            // Checks if file contains collection. If true reads from file
             DataHelper IncomingDeliverysHelper = new DataHelper(IncomingDeliverysFileName);
             IncomingDeliverys = await IncomingDeliverysHelper.ReadFromFile<ObservableCollection<StockClass>>();
 
+            // If no collection is in file a default collection is written to file
             if (IncomingDeliverys == null)
             {
 
@@ -182,7 +190,7 @@ namespace GoldStarr_Trading
                 IncomingDeliverys.CollectionChanged += IncomingDeliverys_CollectionChanged;
 
             }
-            else
+            else    // Writes to file and calls collection changed
             {
                 await WriteToFile(IncomingDeliverysFileName, IncomingDeliverys);
                 IncomingDeliverys.CollectionChanged += IncomingDeliverys_CollectionChanged;
@@ -192,9 +200,11 @@ namespace GoldStarr_Trading
 
             #region CustomerOrdersCollection Handling
 
+            // Checks if file contains collection. If true reads from file
             DataHelper CustomerOrdersHelper = new DataHelper(CustomerOrdersFileName);
             CustomerOrders = await CustomerOrdersHelper.ReadFromFile<ObservableCollection<CustomerOrderClass>>();
 
+            // If no collection is in file a default collection is written to file
             if (CustomerOrders == null)
             {
                 CustomerOrders = new ObservableCollection<CustomerOrderClass>();
@@ -202,7 +212,7 @@ namespace GoldStarr_Trading
                 await WriteToFile(CustomerOrdersFileName, CustomerOrders);
                 CustomerOrders.CollectionChanged += CustomerOrders_CollectionChanged;
             }
-            else
+            else    // Writes to file and calls collection changed
             {
                 await WriteToFile(CustomerOrdersFileName, CustomerOrders);
                 CustomerOrders.CollectionChanged += CustomerOrders_CollectionChanged;
@@ -212,9 +222,11 @@ namespace GoldStarr_Trading
 
             #region QueuedOrdersCollection Handling
 
+            // Checks if file contains collection. If true reads from file
             DataHelper QueuedOrdersHelper = new DataHelper(QueuedOrdersFileName);
             QueuedOrders = await QueuedOrdersHelper.ReadFromFile<ObservableCollection<QueuedOrder>>();
 
+            // If no collection is in file a default collection is written to file
             if (QueuedOrders == null)
             {
                 QueuedOrders = new ObservableCollection<QueuedOrder>();
@@ -222,7 +234,7 @@ namespace GoldStarr_Trading
                 await WriteToFile(QueuedOrdersFileName, QueuedOrders);
                 QueuedOrders.CollectionChanged += QueuedOrders_CollectionChanged;
             }
-            else
+            else    // Writes to file and calls collection changed
             {
                 await WriteToFile(QueuedOrdersFileName, QueuedOrders);
                 QueuedOrders.CollectionChanged += QueuedOrders_CollectionChanged;
@@ -232,8 +244,11 @@ namespace GoldStarr_Trading
 
             #region SupplierCollectionHandling
 
+            // Checks if file contains collection. If true reads from file
             DataHelper SupplierHelper = new DataHelper(SuppliersFileName);
             Suppliers = await SupplierHelper.ReadFromFile<ObservableCollection<Supplier>>();
+
+            // If no collection is in file a default collection is written to file
             if (Suppliers == null)
             {
                 Suppliers = new ObservableCollection<Supplier>();
@@ -246,7 +261,7 @@ namespace GoldStarr_Trading
                 Customer.CollectionChanged += Customer_CollectionChanged;
 
             }
-            else
+            else    // Writes to file and calls collection changed
             {
                 await WriteToFile(SuppliersFileName, Suppliers);
                 Customer.CollectionChanged += Customer_CollectionChanged;
@@ -324,7 +339,7 @@ namespace GoldStarr_Trading
 
         #region Methods
 
-        #region Getters
+        #region Getters for Collections
         public ObservableCollection<CustomerClass> GetDefaultCustomerList()
         {
             return Customer;
