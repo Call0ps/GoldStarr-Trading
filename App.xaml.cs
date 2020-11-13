@@ -27,6 +27,7 @@ namespace GoldStarr_Trading
         public const string CustomerOrdersFileName = "CustomerOrders.json";
         public const string QueuedOrdersFileName = "QueuedOrders.json";
         public const string SuppliersFileName = "Suppliers.json";
+        public const string NewItemsFileName = "NewItems.json";
 
 
 
@@ -49,6 +50,7 @@ namespace GoldStarr_Trading
             }
         }
 
+
         private ObservableCollection<Supplier> suppliers;
         public ObservableCollection<Supplier> Suppliers 
         {
@@ -56,6 +58,18 @@ namespace GoldStarr_Trading
             set
             {
                 suppliers = value;
+                baseNotifier.OnPropertyChanged();
+            }
+        }
+
+
+        private ObservableCollection<StockClass> newItems;
+        public ObservableCollection<StockClass> NewItems
+        {
+            get => newItems;
+            set
+            {
+                newItems = value;
                 baseNotifier.OnPropertyChanged();
             }
         }
@@ -251,7 +265,36 @@ namespace GoldStarr_Trading
                 await WriteToFile(SuppliersFileName, Suppliers);
                 Customer.CollectionChanged += Customer_CollectionChanged;
             }
+
             #endregion
+
+
+            #region NewItemsCollectionHandling
+
+            DataHelper NewItemsHelper = new DataHelper(NewItemsFileName);
+            NewItems = await NewItemsHelper.ReadFromFile<ObservableCollection<StockClass>>();
+            if (NewItems == null)
+            {
+                NewItems = new ObservableCollection<StockClass>();
+
+                NewItems.Add(new StockClass("HydroSpanner v2.0", "Acme AB"));
+                NewItems.Add(new StockClass("Hyper-transceiver v2.0", "Corelian Inc"));
+                NewItems.Add(new StockClass("Boarding-spike v2.0", "Joruba Consortium"));
+
+                await WriteToFile(NewItemsFileName, NewItems);
+                NewItems.CollectionChanged += Customer_CollectionChanged;
+
+            }
+            else
+            {
+                await WriteToFile(NewItemsFileName, NewItems);
+                NewItems.CollectionChanged += Customer_CollectionChanged;
+            }
+
+            #endregion
+
+
+
 
 
 
@@ -383,6 +426,11 @@ namespace GoldStarr_Trading
         private async void Suppliers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             await WriteToFile(SuppliersFileName, Suppliers);
+        }
+
+        private async void NewItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            await WriteToFile(NewItemsFileName, NewItems);
         }
 
         public async Task WriteToFile<T>(string fileName, T collection)
