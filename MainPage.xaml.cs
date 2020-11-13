@@ -145,13 +145,17 @@ namespace GoldStarr_Trading
                         if (item.ItemName == itemToAdd.Text)
                         {
                             merch = item;
+                            store.AddToStock(merch, intValueToAdd);
                         }
                         else
                         {
                             foreach (var get in _app.GetDefaultDeliverysList())
                             {
                                 //Skapa ett nytt objekt och skicka
+
                                 merch = get;
+                                _app.GetDefaultStockList().Add(new StockClass { ItemName = merch.ItemName, Supplier = merch.Supplier, Qty = intValueToAdd });
+                                store.RemoveFromDeliveryList(merch, intValueToAdd);
                             }
                         }
 
@@ -159,7 +163,7 @@ namespace GoldStarr_Trading
 
 
 
-                    store.AddToStock(merch, intValueToAdd);
+                    
 
                     MessageToUser($"You have added: {valueToAdd.Text} {itemToAdd.Text} to your stock");
                     valueToAdd.Text = "";

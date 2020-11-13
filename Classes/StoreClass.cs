@@ -100,7 +100,18 @@ namespace GoldStarr_Trading.Classes
                     await _app.WriteToFile(App.StockFileName, _app.GetDefaultStockList());
                     RemoveFromDeliveryList(merchandise, stockToRemove);
                 }
+                else
+                {
+                    
+                }
+
+                
             }
+
+            //_app.GetDefaultStockList().Add(new StockClass { ItemName = merchandise.ItemName, Supplier = merchandise.Supplier, Qty = stockToAdd });
+            //item.Qty += stockToAdd;
+            //await _app.WriteToFile(App.StockFileName, _app.GetDefaultStockList());
+            //RemoveFromDeliveryList(merchandise, stockToRemove);
 
         }
 
