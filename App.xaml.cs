@@ -319,13 +319,6 @@ namespace GoldStarr_Trading
             deferral.Complete();
 
 
-            //await WriteToFile(CustomerFileName, Customer);
-            //await WriteToFile(StockFileName, Stock);
-            //await WriteToFile(IncomingDeliverysFileName, IncomingDeliverys);
-            //await WriteToFile(CustomerOrdersFileName, CustomerOrders);
-            //await WriteToFile(QueuedOrdersFileName, QueuedOrders);
-            //await WriteToFile(SuppliersFileName, Suppliers);
-
         }
 
 

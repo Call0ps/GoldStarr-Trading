@@ -52,7 +52,6 @@ namespace GoldStarr_Trading
 			}
 			else if (orderQuantity == "" || orderQuantity == "" || amount == 0)
 			{
-
 				MessageToUser("You must enter an integer");
 			}
 			else
@@ -69,14 +68,12 @@ namespace GoldStarr_Trading
 
 						store.CreateOrder(customerOrderer, order);
 
-						//MessageToUser($"You have successfully created a new Customer order for: \n{customerOrderer.CustomerName} with {amount} {stockOrder.ItemName} in it");
 						MessageToUser($"You have successfully created a new Customer order \n\nCustomer: {customerOrderer.CustomerName} \nItem: {order.ItemName} " +
 									  $"\nAmount: {order.Qty} \nOrderdate: {orderDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")}");
 
 						CreateOrderTabCustomersComboBox.SelectedIndex = -1;
 						CreateOrderTabItemComboBox.SelectedIndex = -1;
 						OrderQuantity.Text = "";
-
 					}
 
 					// Otherwise create a new order object, prepared for future functionality
@@ -88,14 +85,12 @@ namespace GoldStarr_Trading
 
 						store.CreateOrder(customerOrderer, order);
 
-						//MessageToUser($"You have successfully created a new Customer order for: \n{customerOrderer.CustomerName} with {amount} {stockOrder.ItemName} in it");
 						MessageToUser($"You have successfully created a new Customer order \n\nCustomer: {customerOrderer.CustomerName} \nItem: {order.ItemName} " +
 									  $"\nAmount: {order.Qty} \nOrderdate: {orderDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss")}");
 
 						CreateOrderTabCustomersComboBox.SelectedIndex = -1;
 						CreateOrderTabItemComboBox.SelectedIndex = -1;
 						OrderQuantity.Text = "";
-
 					}
 				}
 				else
@@ -109,9 +104,6 @@ namespace GoldStarr_Trading
 					OrderQuantity.Text = "";
 				}
 			}
-
-
-
 		}
 
 		private void BtnAddDeliveredMerchandise_Click(object sender, RoutedEventArgs e)
@@ -157,13 +149,6 @@ namespace GoldStarr_Trading
 			{
 				MessageToUser("You must enter an integer");
 			}
-
-
-			#region For Debug
-			Debug.WriteLine(valueToAdd.Text);
-			Debug.WriteLine(valueToCheck.Text);
-			#endregion
-
 		}
 
 		private void CustomersTabComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -177,7 +162,6 @@ namespace GoldStarr_Trading
 			CustomerZipCode.Text = newCustomer.CustomerZipCode;
 			CustomerCity.Text = newCustomer.CustomerCity;
 			CustomerEmail.Text = newCustomer.CustomerEmail;
-
 		}
 
 		private void CustomerAddButton_Click(object sender, RoutedEventArgs e)
@@ -207,8 +191,8 @@ namespace GoldStarr_Trading
 				Regex regexToCheckAddress = new Regex(@"^(([A-ZÅÄÖ]\w*[a-zåäö]+|[A-ZÅÄÖ]\w*[a-zåäö]+\s[a-zA-ZåäöÅÄÖ]\w*[a-zåäö]+)+\s?\d{0,3})+$");  //Adress must start with capitol letter with optional second part and digits at end
 				Regex regexToCheckZipCode = new Regex(@"^\d{3}\s?\d{2}$");                                                                          //Must be in the format xxx xx
 				Regex regexToCheckCity = new Regex(@"^([A-ZÅÄÖ]\w*[a-zåäö]+|[A-ZÅÄÖ]\w*[a-zåäö]+\s[a-zA-ZåäöÅÄÖ]+)$");                              //Must start with capitol letter and can have a optional second part
-				//Regex regexToCheckEmail = new Regex(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
 				Regex regexToCheckEmail = new Regex(@"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|([a-zA-Z0-9]+[\w-]+\.)+[a-zA-Z]{1}[a-zA-Z0-9-]{1,23})$");
+				//Regex to check for valid email formats ex firstname.lastname@domain.com
 				#endregion
 
 				#region Input Validation
@@ -261,6 +245,7 @@ namespace GoldStarr_Trading
 
 				MessageToUser($"You have successfully added a new customer to your customer list \n\nCustomer name: {name}");
 
+
 				#region Reset TextBoxes
 				AddNewCustomerName.Text = "";
 				AddNewCustomerPhoneNumber.Text = "";
@@ -269,6 +254,7 @@ namespace GoldStarr_Trading
 				AddNewCustomerCity.Text = "";
 				AddNewCustomerEmail.Text = "";
 				#endregion
+
 			}
 
 		}
@@ -281,7 +267,6 @@ namespace GoldStarr_Trading
 			AddNewCustomerZipCode.Text = "";
 			AddNewCustomerCity.Text = "";
 			AddNewCustomerEmail.Text = "";
-
 		}
 
 		private void PendingOrdersBtnSend_Click(object sender, RoutedEventArgs e)
@@ -290,7 +275,6 @@ namespace GoldStarr_Trading
 			TextBlock cn = parent.GetChildrenOfType<TextBlock>().First(x => x.Name == "PendingOrdersCustomerName");
 			QueuedOrder queuedOrder = store.FindQueued(cn.Text);
 			store.SendOrder(queuedOrder);
-
 		}
 
 		private void PendingOrdersBtnSendAll_Click(object sender, RoutedEventArgs e)
