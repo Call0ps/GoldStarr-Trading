@@ -138,13 +138,26 @@ namespace GoldStarr_Trading
                 {
                     StockClass merch = null;
 
+
+                    
                     foreach (var item in _app.GetDefaultStockList())
                     {
                         if (item.ItemName == itemToAdd.Text)
                         {
                             merch = item;
                         }
-                    }
+                        else
+                        {
+                            foreach (var get in _app.GetDefaultDeliverysList())
+                            {
+                                //Skapa ett nytt objekt och skicka
+                                merch = get;
+                            }
+                        }
+
+                    } 
+
+
 
                     store.AddToStock(merch, intValueToAdd);
 
@@ -394,11 +407,11 @@ namespace GoldStarr_Trading
             StockClass stockOrder = null;
             //DateTime orderDate = DateTime.UtcNow;
 
-            string orderQuantity = OrderQuantity.Text;
+            string orderQuantity = AddNewItemQuantity.Text;
             int.TryParse(orderQuantity, out int amount);
-            //supplier = (Supplier)SupplierTabSuppliersComboBox.SelectedValue;
+            supplier = (Supplier)AddNewItemTabSuppliersComboBox.SelectedValue;
 
-            //stockOrder = (StockClass)SupplierTabItemComboBox.SelectedValue;
+            stockOrder = (StockClass)AddNewItemTabItemComboBox.SelectedValue;
 
             //CustomerClass newCustomer = _app.GetDefaultCustomerList().First(x => x.CustomerName == customerName);
 
@@ -477,16 +490,29 @@ namespace GoldStarr_Trading
         {
             string supplierName = e.AddedItems[0].ToString();
 
-            Supplier showSupplier = _app.Suppliers.First(x => x.SupplierName == supplierName);
-            foreach (var item in _app.NewItems)
-            {
-                if (item.Supplier == showSupplier.SupplierName)
-                {
-                    AddNewItemTabItemComboBox.Text = item.ItemName;
-                    //AddNewItemTabItemComboBox.Text = item.ItemName;
+            List<StockClass> comboboxItems = new List<StockClass>();
 
+            Supplier showSupplier = _app.Suppliers.First(x => x.SupplierName == supplierName);
+
+            for (int i = 0; i < _app.NewItems.Count; i++)
+            {
+                if (_app.NewItems[i].Supplier == showSupplier.SupplierName)
+                {
+                    comboboxItems.Add(_app.NewItems[i]);
                 }
+
+
             }
+            //foreach (var item in _app.NewItems)
+            //{
+            //    if (item.Supplier == showSupplier.SupplierName)
+            //    {
+            //        comboboxItems.Add(item);
+            //    }
+            //}
+
+            AddNewItemTabItemComboBox.ItemsSource = comboboxItems;
+
         }
         #endregion
 

@@ -252,7 +252,7 @@ namespace GoldStarr_Trading
             {
                 Suppliers = new ObservableCollection<Supplier>();
 
-                Suppliers.Add(new Supplier("Acme Ab", "Smallhill 7", "215 70", "Malmö", "+46 0707-123-456"));
+                Suppliers.Add(new Supplier("Acme AB", "Smallhill 7", "215 70", "Malmö", "+46 0707-123-456"));
                 Suppliers.Add(new Supplier("Corelian Inc", "Djäknegatan 13", "215 71", "Malmö", "0707-234-567"));
                 Suppliers.Add(new Supplier("Joruba Consortium", "Stengränd 11", "215 72", "Malmö", "0707-345 678"));
 
