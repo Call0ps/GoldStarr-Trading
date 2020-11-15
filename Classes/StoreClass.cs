@@ -1,37 +1,33 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
-using Windows.Networking.Vpn;
 using Windows.UI.Popups;
 
 namespace GoldStarr_Trading.Classes
 {
-    class StoreClass : IMessageToUser
+    internal class StoreClass : IMessageToUser
     {
         #region Properties
-        private App _app { get; set; }
-        #endregion
 
+        private App _app { get; set; }
+
+        #endregion Properties
 
         #region Constructors
+
         public StoreClass()
         {
             _app = (App)App.Current;
         }
-        #endregion
 
+        #endregion Constructors
 
         #region Methods
 
         public async void RemoveFromStock(StockClass merchandise, int stockToRemove)
         {
-
             foreach (var item in _app.GetDefaultStockList())
             {
-
                 if (item.ItemName == merchandise.ItemName)
                 {
                     if (item.Qty - stockToRemove < 0)
@@ -46,7 +42,6 @@ namespace GoldStarr_Trading.Classes
                     }
                 }
             }
-
         }
 
         public void CreateOrder(CustomerClass customer, StockClass merch)
@@ -78,14 +73,12 @@ namespace GoldStarr_Trading.Classes
         {
             foreach (var item in _app.GetDefaultDeliverysList())
             {
-
                 if (item.ItemName == merchandise.ItemName)
                 {
                     item.Qty -= stockToRemove;
                     await _app.WriteToFile(App.IncomingDeliverysFileName, _app.GetDefaultDeliverysList());
                 }
             }
-
         }
 
         public async void AddToStock(StockClass merchandise, int stockToAdd)
@@ -101,7 +94,6 @@ namespace GoldStarr_Trading.Classes
                     RemoveFromDeliveryList(merchandise, stockToRemove);
                 }
             }
-
         }
 
         /// <summary>
@@ -109,14 +101,14 @@ namespace GoldStarr_Trading.Classes
         /// </summary>
         public async void TrySendQO()
         {
-            int qCount = _app.QueuedOrders.Count-1;
+            int qCount = _app.QueuedOrders.Count - 1;
             if (_app.QueuedOrders.Count == 0)
             {
                 await MessageToUser("No pending orders to send");
             }
             else
             {
-                for (int i = qCount; i >=0; --i)
+                for (int i = qCount; i >= 0; --i)
                 {
                     await SendOrder(_app.QueuedOrders[i]);
                 }
@@ -139,7 +131,7 @@ namespace GoldStarr_Trading.Classes
                 // Update the remaining objects with a new qID
                 foreach (var item in _app.QueuedOrders)
                 {
-                    if (item.QueueID > 1) {item.QueueID -= 1; }
+                    if (item.QueueID > 1) { item.QueueID -= 1; }
                     else { continue; }
                 }
                 _app.GetDefaultCustomerOrdersList().Add(queuedOrder.ConvertFromQueued());
@@ -149,7 +141,6 @@ namespace GoldStarr_Trading.Classes
             {
                 await MessageToUser("Not enough in stock to send order!");
             }
-
         }
 
         private StockClass FindProduct(string merchName)
@@ -189,7 +180,6 @@ namespace GoldStarr_Trading.Classes
             await message.ShowAsync();
         }
 
-        #endregion
-
+        #endregion Methods
     }
 }

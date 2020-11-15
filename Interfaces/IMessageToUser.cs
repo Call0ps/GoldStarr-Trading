@@ -2,7 +2,7 @@
 
 namespace GoldStarr_Trading.Classes
 {
-    interface IMessageToUser
+    internal interface IMessageToUser
     {
         Task MessageToUser(string inputMessage);
     }

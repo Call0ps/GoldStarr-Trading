@@ -6,17 +6,18 @@ namespace GoldStarr_Trading.Classes
 {
     public class CustomerOrderClass : INotifyPropertyChanged
     {
-
         #region Properties
+
         public CustomerClass Customer { get; set; }
 
         public StockClass Merchandise { get; set; }
 
         public string OrderDate { get; set; }
-        #endregion
 
+        #endregion Properties
 
         #region Constructors
+
         public CustomerOrderClass(CustomerClass customerClass, StockClass merchandise, DateTime orderDate)
         {
             this.Customer = customerClass;
@@ -24,10 +25,10 @@ namespace GoldStarr_Trading.Classes
             this.OrderDate = orderDate.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");
         }
 
-        #endregion
-
+        #endregion Constructors
 
         #region Methods
+
         public string GetOrder()
         {
             string customerName = Customer.CustomerName;
@@ -38,12 +39,14 @@ namespace GoldStarr_Trading.Classes
         }
 
         #region PropertyChangedEventHandler
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         public void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        #endregion
 
-        #endregion
+        #endregion PropertyChangedEventHandler
 
+        #endregion Methods
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+
 namespace GoldStarr_Trading.Classes
 {
     /// <summary>
@@ -8,6 +9,7 @@ namespace GoldStarr_Trading.Classes
     public class BaseNotifier : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         public void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

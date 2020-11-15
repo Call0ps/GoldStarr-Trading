@@ -5,9 +5,10 @@ namespace GoldStarr_Trading.Classes
 {
     public class Supplier : INotifyPropertyChanged
     {
-
         #region Properties
+
         private string _supplierName;
+
         public string SupplierName
         {
             get => _supplierName;
@@ -21,8 +22,8 @@ namespace GoldStarr_Trading.Classes
             }
         }
 
-
         private string _supplierAddress;
+
         public string SupplierAddress
         {
             get => _supplierAddress;
@@ -36,8 +37,8 @@ namespace GoldStarr_Trading.Classes
             }
         }
 
-
         private string _supplierZipCode;
+
         public string SupplierZipCode
         {
             get => _supplierZipCode;
@@ -51,8 +52,8 @@ namespace GoldStarr_Trading.Classes
             }
         }
 
-
         private string _supplierCity;
+
         public string SupplierCity
         {
             get => _supplierCity;
@@ -66,8 +67,8 @@ namespace GoldStarr_Trading.Classes
             }
         }
 
-
         private string _supplierPhone;
+
         public string SupplierPhone
         {
             get => _supplierPhone;
@@ -81,10 +82,10 @@ namespace GoldStarr_Trading.Classes
             }
         }
 
-        #endregion
-
+        #endregion Properties
 
         #region Constructor
+
         public Supplier(string name, string address, string zipCode, string city, string phone)
         {
             SupplierName = name;
@@ -93,22 +94,25 @@ namespace GoldStarr_Trading.Classes
             SupplierCity = city;
             SupplierPhone = phone;
         }
-        #endregion
 
+        #endregion Constructor
 
         #region Methods
+
         public override string ToString()
         {
             return SupplierName;
         }
 
         #region PropertyChangedEventHandler
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         public void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        #endregion
 
-        #endregion
+        #endregion PropertyChangedEventHandler
 
+        #endregion Methods
     }
 }

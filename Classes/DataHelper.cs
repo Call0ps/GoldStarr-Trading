@@ -3,13 +3,10 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-
 namespace GoldStarr_Trading
 {
-
     public class DataHelper
     {
-
         #region Properties
 
         /// <summary>
@@ -17,8 +14,7 @@ namespace GoldStarr_Trading
         /// </summary>
         private string _fileName { get; set; }
 
-        #endregion
-
+        #endregion Properties
 
         #region Constructors
 
@@ -31,8 +27,7 @@ namespace GoldStarr_Trading
             _fileName = fileName;
         }
 
-        #endregion
-
+        #endregion Constructors
 
         #region Methods
 
@@ -55,7 +50,6 @@ namespace GoldStarr_Trading
             }
             catch (FileNotFoundException fnfe)
 
-
             {
                 // if the file does not exist, an exception will be thrown, but we will make sure the file will be created.
                 file = await storageFolder.CreateFileAsync(_fileName);
@@ -71,6 +65,7 @@ namespace GoldStarr_Trading
 
             return obj;
         }
+
         /// <summary>
         /// Writes T to a file by the initial filename as JSON.
         /// </summary>
@@ -114,8 +109,6 @@ namespace GoldStarr_Trading
             }
         }
 
-        #endregion
-
+        #endregion Methods
     }
-
 }

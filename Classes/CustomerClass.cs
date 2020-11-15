@@ -95,11 +95,10 @@
 
         #region Constructors
 
-
         public CustomerClass()
         {
-
         }
+
         public CustomerClass(string name, string address, string zipCode, string city, string phone)
         {
             CustomerName = name;
@@ -108,6 +107,7 @@
             CustomerCity = city;
             CustomerPhone = phone;
         }
+
         public CustomerClass(string name, string address, string zipCode, string city, string phone, string email)
         {
             CustomerName = name;
@@ -117,6 +117,7 @@
             CustomerPhone = phone;
             CustomerEmail = email;
         }
+
         #endregion Constructors
 
         #region Methods

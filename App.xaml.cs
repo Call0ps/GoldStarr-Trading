@@ -13,15 +13,13 @@ namespace GoldStarr_Trading
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    /// 
+    ///
 
     sealed partial class App : Application
     {
-
-
         #region Collections/Fields/Properties
 
-        BaseNotifier baseNotifier = new BaseNotifier();
+        private BaseNotifier baseNotifier = new BaseNotifier();
 
         public const string CustomerFileName = "Customer.json";
         public const string StockFileName = "Stock.json";
@@ -30,16 +28,14 @@ namespace GoldStarr_Trading
         public const string QueuedOrdersFileName = "QueuedOrders.json";
         public const string SuppliersFileName = "Suppliers.json";
 
-
         private ObservableCollection<CustomerClass> Customer { get; set; }
         private ObservableCollection<StockClass> Stock { get; set; }
         private ObservableCollection<StockClass> IncomingDeliverys { get; set; }
         private ObservableCollection<CustomerOrderClass> CustomerOrders { get; set; }
 
-        
-
         // ObsColl with private backing
         private ObservableCollection<QueuedOrder> queuedOrders;
+
         public ObservableCollection<QueuedOrder> QueuedOrders
         {
             get => queuedOrders;
@@ -51,7 +47,8 @@ namespace GoldStarr_Trading
         }
 
         private ObservableCollection<Supplier> suppliers;
-        public ObservableCollection<Supplier> Suppliers 
+
+        public ObservableCollection<Supplier> Suppliers
         {
             get => suppliers;
             set
@@ -60,21 +57,21 @@ namespace GoldStarr_Trading
                 baseNotifier.OnPropertyChanged();
             }
         }
-        #endregion
 
-
+        #endregion Collections/Fields/Properties
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
-        /// 
+        ///
         public App()
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
             #region OLD
+
             //Customer.Add(new CustomerClass("Lisa Underwood", "Smallhill 7", "215 70", "Malmö", "+46 0707-123-456"));
             //Customer.Add(new CustomerClass("Olle Bull", "Djäknegatan 13", "215 71", "Malmö", "0707-234-567"));
             //Customer.Add(new CustomerClass("Ben Knota", "Stengränd 11", "215 72", "Malmö", "0707-345 678"));
@@ -94,9 +91,9 @@ namespace GoldStarr_Trading
             //IncomingDeliverys.Add(new StockClass("Boarding-spike", "Joruba Consortium", 1));
 
             //CustomerOrders = new ObservableCollection<CustomerOrderClass>();
-            #endregion
-        }
 
+            #endregion OLD
+        }
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -105,11 +102,7 @@ namespace GoldStarr_Trading
         /// <param name="e">Details about the launch request and process.</param>
         protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
-
             Frame rootFrame = Window.Current.Content as Frame;
-
-
 
             #region CustomerCollection Handling
 
@@ -130,15 +123,14 @@ namespace GoldStarr_Trading
 
                 await WriteToFile(CustomerFileName, Customer);
                 Customer.CollectionChanged += Customer_CollectionChanged;
-
             }
             else    // Writes to file and calls collection changed
             {
                 await WriteToFile(CustomerFileName, Customer);
                 Customer.CollectionChanged += Customer_CollectionChanged;
             }
-            #endregion
 
+            #endregion CustomerCollection Handling
 
             #region StockCollection Handling
 
@@ -165,8 +157,8 @@ namespace GoldStarr_Trading
                 await WriteToFile(StockFileName, Stock);
                 Stock.CollectionChanged += Stock_CollectionChanged;
             }
-            #endregion
 
+            #endregion StockCollection Handling
 
             #region IncomingDeliverys Handling
 
@@ -177,7 +169,6 @@ namespace GoldStarr_Trading
             // If no collection is in file a default collection is written to file
             if (IncomingDeliverys == null)
             {
-
                 IncomingDeliverys = new ObservableCollection<StockClass>();
 
                 IncomingDeliverys.Add(new StockClass("HydroSpanner", "Acme AB", 5));
@@ -188,15 +179,14 @@ namespace GoldStarr_Trading
 
                 await WriteToFile(IncomingDeliverysFileName, IncomingDeliverys);
                 IncomingDeliverys.CollectionChanged += IncomingDeliverys_CollectionChanged;
-
             }
             else    // Writes to file and calls collection changed
             {
                 await WriteToFile(IncomingDeliverysFileName, IncomingDeliverys);
                 IncomingDeliverys.CollectionChanged += IncomingDeliverys_CollectionChanged;
             }
-            #endregion
 
+            #endregion IncomingDeliverys Handling
 
             #region CustomerOrdersCollection Handling
 
@@ -217,8 +207,8 @@ namespace GoldStarr_Trading
                 await WriteToFile(CustomerOrdersFileName, CustomerOrders);
                 CustomerOrders.CollectionChanged += CustomerOrders_CollectionChanged;
             }
-            #endregion
 
+            #endregion CustomerOrdersCollection Handling
 
             #region QueuedOrdersCollection Handling
 
@@ -239,8 +229,8 @@ namespace GoldStarr_Trading
                 await WriteToFile(QueuedOrdersFileName, QueuedOrders);
                 QueuedOrders.CollectionChanged += QueuedOrders_CollectionChanged;
             }
-            #endregion
 
+            #endregion QueuedOrdersCollection Handling
 
             #region SupplierCollectionHandling
 
@@ -259,20 +249,14 @@ namespace GoldStarr_Trading
 
                 await WriteToFile(SuppliersFileName, Suppliers);
                 Customer.CollectionChanged += Customer_CollectionChanged;
-
             }
             else    // Writes to file and calls collection changed
             {
                 await WriteToFile(SuppliersFileName, Suppliers);
                 Customer.CollectionChanged += Customer_CollectionChanged;
             }
-            #endregion
 
-
-
-
-
-
+            #endregion SupplierCollectionHandling
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -306,19 +290,15 @@ namespace GoldStarr_Trading
             }
         }
 
-
-
-
         /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
-
 
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved
@@ -332,14 +312,12 @@ namespace GoldStarr_Trading
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
-
-
         }
-
 
         #region Methods
 
         #region Getters for Collections
+
         public ObservableCollection<CustomerClass> GetDefaultCustomerList()
         {
             return Customer;
@@ -359,10 +337,11 @@ namespace GoldStarr_Trading
         {
             return CustomerOrders;
         }
-        #endregion
 
+        #endregion Getters for Collections
 
         #region CollectionChanged methods
+
         private async void Customer_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             await WriteToFile(CustomerFileName, Customer);
@@ -398,9 +377,9 @@ namespace GoldStarr_Trading
             DataHelper helper = new DataHelper(fileName);
             await helper.WriteToFile(collection);
         }
-        #endregion
 
-        #endregion
+        #endregion CollectionChanged methods
 
+        #endregion Methods
     }
 }
